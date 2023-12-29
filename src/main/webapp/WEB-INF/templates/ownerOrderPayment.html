@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/restaurantOwner.html}">
+<head>
+<title>Order</title>
+
+</head>
+
+<body>
+
+
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+	<div layout:fragment="content">
+
+		<div class="container-fluid mt-1 px-4 " style="min-height: 500px;">
+			<div class=" row flex-column flex-lg-row my-2">
+				<div class=" text-center col">
+					<h3 class="fw-bold text-warning">Order Info</h3>
+				</div>
+
+			</div>
+
+
+
+			<div class="card-body">
+				<div class="row mb-2">
+					<div class="col fw-bolder"
+						style="align-items: center; display: flex;">
+						<span>Screen Shot</span>
+					</div>
+					<div class="col">
+
+						<a href="#" onclick="openImageModal(this)"
+							th:attr="data-screenshot=${orderInfo.screenShot}"> <img
+							class="img-fluid img-thumbnail"
+							th:src="@{${orderInfo.screenShot}}"
+							style="height: 280px; min-width: 200px;">
+						</a>
+					</div>
+					<div class="col"></div>
+				</div>
+				<hr>
+				<div class="row mb-2">
+					<div class="col-12 col-md-4 fw-bolder">Order Number</div>
+					<div class="col-12 col-md-6">
+						<span th:text="${orderInfo.orderNumber}"></span>
+					</div>
+					<div class="col"></div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-12 col-md-4 fw-bolder">Total Price</div>
+					<div class="col-12 col-md-6">
+						<span th:text="${orderInfo.totalPrice}"></span>
+					</div>
+					<div class="col"></div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-12 col-md-4 fw-bolder">Delivery Address</div>
+					<div class="col-12 col-md-6">
+						<span class="fw-bold text-warning"
+							th:text="${orderInfo.deliveryAddress}"></span>
+					</div>
+					<div class="col"></div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-12 col-md-4 fw-bolder">Order</div>
+					<div class="col-12 col-md-6">
+						<span class="fw-bold text-warning"
+							th:text="${orderInfo.orderTypeName}"></span>
+					</div>
+					<div class="col"></div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-12 col-md-4 fw-bolder">Payment</div>
+					<div class="col-12 col-md-6">
+						<span class="fw-bold text-warning"
+							th:text="${orderInfo.paymentTypeName}"></span>
+					</div>
+					<div class="col"></div>
+				</div>
+			</div>
+
+
+
+
+
+		</div>
+
+		<!-- Modal -->
+		<!-- Add a modal to display the image details -->
+		<div th:replace="fragment/modals :: imageDetailModal"></div>
+
+		<!-- Modal -->
+
+
+
+
+	</div>
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+</body>
+
+</html>

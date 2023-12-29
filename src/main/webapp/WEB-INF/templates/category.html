@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/restaurantOwner.html}">
+
+<head>
+<title>Category</title>
+
+
+
+</head>
+
+<body>
+
+
+
+
+	<!-- ------------>
+	<!-- slid Bar -->
+	<!-- ------------>
+
+	<!-- ------------>
+	<!-- main  -->
+	<!-- ------------>
+
+	<!-- ------------------>
+	<!-- Main Top Nav Bar -->
+	<!-- ------------------->
+
+	<!-- ------------------>
+	<!-- Main Top Nav Bar -->
+	<!-- ------------------->
+
+
+
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+	<div layout:fragment="content">
+
+
+		<div class="container-fluid mt-1 p-2 " style="min-height: 500px;">
+			<div class=" row flex-column flex-lg-row mb-1">
+				<div class="text-center col">
+					<h3 class="text-warning fw-bolder">
+						<i class="fa-solid fa-layer-group me-2"></i>Category
+					</h3>
+				</div>
+
+			</div>
+
+
+		
+				<div class="row d-flex-end flex-row-reverse px-3">
+					<button class="btn btn-warning col-12 col-md-3 col-lg-2"
+						type="button" id="addCategory" onclick="openAddModal()">
+						<i class="fa-solid fa-plate-wheat"></i>Add New Categories
+					</button>
+
+				</div>
+			
+
+			<h5 th:text="${message}" id="message" class="text-info"></h5>
+			<h5 th:text="${addMessage}" id="addMessage" class="text-info "></h5>
+			<h5 th:text="${msg}" id="msg" class="text-info "></h5>
+			<h5 th:text="${addError}" id="addError" class="text-danger "></h5>
+			<h5 th:text="${error}" id="error" class="text-danger "></h5>
+			<h5 th:text="${errorDelete}" id="errorDelete" class="text-danger "></h5>
+			<input type="hidden" th:value=${categoryId} id="categoryId">
+
+			<table id="userOrderRecord"
+				class="table  align-middle table-responsive scrollable table-striped table-bordered text-center align-middle ">
+				<thead class="text-center table-dark align-middle ">
+					<tr>
+						<th class="text-center">No</th>
+						<th class="text-center">Name</th>
+						<th class="text-center">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="category, i : ${categorys}">
+						<td scope="row" th:text="${i.index + 1}"></td>
+						<td class="category-name" th:text="${category.foodName}"></td>
+						<td><button type="button" class="btn btn-lg col"
+								th:id="'update-'+${category.id}"
+								th:attr="data-categoryid=${category.id}, data-categoryname=${category.foodName}"
+								onclick="openUpdateModal(this)">
+								<i class="fa-solid fa-pen-to-square"></i>
+							</button>
+							<button type="button" class="btn btn-lg col"
+								th:id="'delete-'+${category.id}"
+								th:attr="data-categoryid=${category.id}, data-categoryname=${category.foodName}"
+								onclick="openDeleteModal(this)">
+								<i class="fa-solid fa-trash-can text-danger"></i>
+							</button></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<!--Delete Modal -->
+			<div class="modal fade" id="deleteModal" data-bs-backdrop="static"
+				data-bs-keyboard="false" tabindex="-1"
+				aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 align="center" class="modal-title fs-5"
+								id="staticBackdropLabel">Delete Category</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+							<p th:text="${errorDelete}" class="text-danger "></p>
+							<h3 style="white-space: normal; word-wrap: break-word;">
+								<span class="d-block">Are you sure want to delete</span> "
+								<div class="text-warning d-inline" id="deleteName"></div>
+								" !
+							</h3>
+						</div>
+						<hr>
+						<form th:action="@{/owner/deleteCategory}" method="post"
+							th:object="${category}">
+							<div class="btnGp row mb-3">
+								<input type="hidden" th:field="*{id}" id="deleteId" /> <input
+									type="button"
+									class="modalBtn btn btn-outline-primary col me-2 ms-3"
+									data-bs-dismiss="modal" value="No"> <input
+									type="submit" class="modalBtn btn btn-danger col me-3"
+									value="Yes">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Add Model -->
+			<div class="modal fade" id="addModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="exampleModalLabel">Food
+								Categories</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<h5 th:text="${addMessage}" id="addMessage"
+							class="text-info fw-bolder"></h5>
+						<h5 th:text="${addError}" id="addError"
+							class="text-danger fw-bolder"></h5>
+						<form th:action="@{/owner/addCategory}" method="post"
+							th:object="${category}" class="was-validated">
+
+							<div class="modal-body">
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label">Categories</label>
+									<input th:field="*{foodName}" class="form-control"
+										id="exampleFormControlInput1" type="text" minlength="1"
+										maxlength="30" placeholder="Enter Categories name" required>
+								</div>
+							</div>
+							<div class="modal-footer row">
+								<button type="button" class="btn btn-secondary col me-2"
+									data-bs-dismiss="modal">Close</button>
+
+								<!-- If not exists, allow adding -->
+								<button type="submit" id="submitButton"
+									class="btn btn-primary col">Add</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- Update Modal -->
+			<div class="modal fade" id="updateModel">
+
+				<div class="modal-dialog">
+					<div class="modal-content p-3">
+						<div class="modal-header">
+							<h1 align="center" class="modal-title fs-5 fw-3"
+								id="staticBackdropLabel">Update Category</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<h5 th:text="${message}" class="text-info fw-bolder"></h5>
+						<h5 th:text="${error}" class="text-danger fw-bolder"></h5>
+						<form th:action="@{/owner/updateCategory}" method="post"
+							th:object="${category}" class="was-validated">
+							<div class="mb-3">
+								<label for="name" class="form-label text-success">Category</label>
+								<input type="text" th:field="*{foodName}" id="updateName"
+									minlength="1" maxlength="30" class="form-control" required />
+							</div>
+
+
+							<hr>
+							<div class="btnGp row mb-3">
+								<input type="hidden" th:field="*{id}" id="updateId" /> <input
+									type="button" data-bs-dismiss="modal"
+									class="modalBtn btn btn-outline-danger col me-2 ms-3"
+									value="Cancel"> <input type="submit"
+									class="modalBtn btn btn-success col me-3" value="Update">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+		</div>
+
+
+
+
+
+	</div>
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+
+
+
+
+</body>
+
+</html>

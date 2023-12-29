@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>Access Denied Page</title>
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32"
+	th:href="@{/resourcesassets/img/favicons/favicon-32x32.png}">
+<link rel="icon" type="image/png" sizes="16x16"
+	th:href="@{/resources/assets/img/favicons/favicon-16x16.png}">
+
+<!-- Bootstrap -->
+<link rel="stylesheet"
+	th:href="@{/resources/assets/css/bootstrap.min.css}">
+<script th:src="@{/resources/assets/js/bootstrap.bundle.min.js}"
+	crossorigin="anonymous"></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" th:href="@{/resources/assets/css/all.min.css}">
+<link rel="stylesheet"
+	th:href="@{/resources/assets/css/fontawesome.min.css}">
+
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&amp;display=swap"
+	rel="stylesheet">
+
+<!-- jQuery -->
+<script th:src="@{/resources/assets/js/jquery.js}"
+	crossorigin="anonymous"></script>
+
+</head>
+
+<body style="height: 100vh;"
+	class="m-0 p-0 d-flex d-flex align-items-center">
+
+	<!-- Main Content  -->
+
+	<div class="card m-0 p-0 row w-100">
+		<div class="card-header text-center col-12 ">
+			<h3 class="text-500 ">Access Denied</h3>
+		</div>
+		<div class="card-body text-center ">
+			<h5
+				class="text-warning fw-bold mb-3 bg-info bg-opacity-10 border border-info rounded p-2">You
+				Have No Authority To DO This !</h5>
+			<img class="img-fluid rounded shadow m-0"
+				th:src="@{/resources/assets/img/gallery/accessDenied.jpg}"
+				alt="access" style="width: 800px;" />
+		</div>
+
+
+	</div>
+
+
+
+</body>
+</html>

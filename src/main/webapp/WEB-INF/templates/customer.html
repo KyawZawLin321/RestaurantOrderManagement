@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/restaurantOwner.html}">
+<head>
+<title>Customer</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+		<div class="container-fluid mt-1 p-2 " style="min-height: 500px;">
+			<div class=" row flex-column flex-lg-row mb-1">
+				<div class="fw-bolder text-center col">
+					<h3 class="fw-bold text-warning"><i class="fa-solid fa-user-tag me-2"></i>Customer</h3>
+				</div>
+
+			</div>
+
+
+			<table id="userOrderRecord"
+				class="table  align-middle table-responsive scrollable table-striped table-bordered text-center align-middle ">
+
+				<thead class="text-center table-dark align-middle ">
+
+					<tr>
+						<th>No</th>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Phone Number</th>
+						<th>Address</th>
+
+
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="user, i : ${users}">
+						<td scope="row" th:text="${i.index + 1}"></td>
+						<td th:text="${user.name}"></td>
+						<td th:text="${user.email}"></td>
+						<td th:text="${user.phoneNumber}"></td>
+						<td th:text="${user.address}"></td>
+
+					</tr>
+				</tbody>
+
+
+			</table>
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+
+
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+
+
+	<!-- ------------>
+	<!-- main  -->
+	<!-- ------------>
+
+
+
+	</div>
+	<!-- ------------>
+	<!-- footer -->
+	<!-- ------------>
+
+
+
+</body>
+
+</html>

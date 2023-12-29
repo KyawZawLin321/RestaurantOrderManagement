@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/admin.html}">
+
+<head>
+<title>Restaurant</title>
+
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<!-- ---------------- -- Main Content -- ----------------- -->
+
+
+
+		<div class="container-fluid mt-1 p-2 px-3" style="min-height: 500px;">
+			<div class=" row flex-column flex-lg-row mb-1">
+				<div class="text-center col">
+					<h3 class="text-warning fw-bolder d-inline">
+						<i class="fa-solid fa-shop me-2 fs-4 "></i>Restaurants
+					</h3>
+				</div>
+
+			</div>
+			<h4 class="fw-bolder text-danger" th:text="${addError}" id="addError"></h4>
+			<h4 class="fw-bolder text-info" th:text="${addMessage}"
+				id="addMessage"></h4>
+			<h4 class="fw-bolder text-danger" th:text="${error}" id="error"></h4>
+			<h4 class="fw-bolder text-info" th:text="${message}" id="message"></h4>
+			<h4 class="fw-bolder text-info" th:text="${messageImage}"></h4>
+			<h4 class="fw-bolder text-info" th:text="${messageLogo}"></h4>
+			<h4 class="fw-bolder text-danger" th:text="${errorImage}"
+				id="errorImage"></h4>
+			<h4 class="fw-bolder text-danger" th:text="${errorLogo}"
+				id="errorLogo"></h4>
+			<h4 class="fw-bolder text-info" th:text="${msg}"></h4>
+			<input type="hidden" th:value="${restaurantId}" id="restaurantId">
+
+			<div class="table-responsive">
+				<table id="userOrderRecord"
+					class="table  align-middle table-responsive scrollable table-striped table-bordered text-center align-middle ">
+					<thead class="text-center table-dark align-middle ">
+						<tr>
+							<th class="text-center text-nowrap">No</th>
+							<th class="text-center text-nowrap">Name</th>
+							<th class="text-center text-nowrap">Email</th>
+							<th class="text-center text-nowrap">Phone Number</th>
+							<th class="text-center text-nowrap">Address</th>
+							<th class="text-center text-nowrap">Logo</th>
+							<th class="text-center text-nowrap">Image</th>
+							<th class="text-center text-nowrap">Create Date</th>
+							<th class="text-center text-nowrap">Update Date</th>
+							<th class="text-center text-nowrap">Description</th>
+							<th class="text-center text-nowrap">Owner</th>
+							<th class="text-center text-nowrap">Action</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="restaurant, i : ${restaurants}">
+							<th scope="row" th:text="${i.index + 1}"></th>
+							<td th:text="${restaurant.name}"></td>
+							<td th:text="${restaurant.email}"></td>
+							<td th:text="${restaurant.phone_number}"></td>
+							<td th:text="${restaurant.address}"></td>
+							<td>
+								<div class="position-relative d-inline-block">
+									<img th:src="@{${restaurant.logo}}" width="60" height="60"
+										class="rounded shadow"> <a
+										th:id="'logo-'+${restaurant.id}"
+										class="position-absolute bottom-0 start-50 badge rounded-pill bg-danger"
+										href="#" onclick="openUpdateRestaurantLogoModal(this)"
+										th:attr="data-restaurantid=${restaurant.id}"> <i
+										class="fa-solid fa-pen-to-square"></i>
+									</a>
+								</div>
+							</td>
+							<td>
+								<div class="position-relative d-inline-block">
+									<img th:src="@{${restaurant.image}}" width="60" height="60"
+										class="rounded shadow"> <a
+										th:id="'image-'+${restaurant.id}"
+										class="position-absolute bottom-0 start-50 badge rounded-pill bg-danger"
+										href="#" onclick="openUpdateRestaurantImageModal(this)"
+										th:attr="data-restaurantid=${restaurant.id}"> <i
+										class="fa-solid fa-pen-to-square"></i>
+									</a>
+								</div>
+							</td>
+
+							<td
+								th:text="${restaurant.create_date != null ? restaurant.create_date : '-'}"></td>
+							<td
+								th:text="${restaurant.update_date != null ? restaurant.update_date : '-'}"></td>
+							<td class="description-column" th:text="${#strings.length(restaurant.description) > 50 ? #strings.substring(restaurant.description, 0, 50) + '...' : restaurant.description}"></td>
+							<td><a class="text-info text-nowrap text-decoration-none"
+								th:href="@{/admin/displayOwner/{restaurantId}(restaurantId=${restaurant.id})}">
+									<i class="fa-solid fa-circle-info me-2"></i><span>Info</span>
+							</a></td>
+							<td class="text-nowrap">
+								<button type="button" th:id="'update-'+${restaurant.id}"
+									th:attr="data-restaurantid=${restaurant.id}, data-restaurantname=${restaurant.name},data-restaurantemail=${restaurant.email},data-restaurantphone_number=${restaurant.phone_number},
+												data-restaurantaddress=${restaurant.address},data-restaurantdescription=${restaurant.description}"
+									onclick="openUpdateRestaurantModal(this)">
+									<i class="fa-solid fa-pen-to-square"></i>
+								</button>
+								<button type="button"
+									th:attr="data-restaurantid=${restaurant.id}, data-restaurantname=${restaurant.name}"
+									onclick="openDeleteRestaurantModal(this)">
+									<i class="fa-solid fa-trash-can text-danger"></i>
+								</button>
+
+							</td>
+						</tr>
+
+					</tbody>
+
+				</table>
+			</div>
+
+
+		</div>
+		<!--Delete Restaurant Modal -->
+
+		<div class="modal fade" id="deleteRestaurantModal"
+			data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content" style="padding: 10px 20px;">
+					<div class="modal-header">
+						<h1 align="center" class="modal-title fs-5"
+							id="staticBackdropLabel">Delete OrderType</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<h3>
+							<span class="d-block">Are you sure want to delete</span> " <big
+								class="text-warning " id="deleteName"></big>" !
+						</h3>
+					</div>
+					<hr>
+					<form th:action="@{/admin/deleteRestaurant}" method="post"
+						th:object="${restaurant}">
+						<div class="modal-footer">
+							<input type="hidden" th:field="*{id}" id="deleteId" /> <input
+								type="button" class="modalBtn btn btn-outline-primary col"
+								data-bs-dismiss="modal" value="No"> <input type="submit"
+								class="modalBtn btn btn-danger col" value="Yes">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- Update Restaurant Modal -->
+
+		<div class="modal fade" id="updateRestaurantModal">
+
+			<div class="modal-dialog">
+				<div class="modal-content" style="padding: 10px 20px;">
+					<div class="modal-header">
+						<h1 align="center" class="modal-title fs-5 fw-3"
+							id="staticBackdropLabel">Update Restaurant</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<p th:text="${message}" class="text-info"></p>
+					<p th:text="${error}" class="text-danger"></p>
+					<form th:action="@{/admin/updateRestaurant}" method="post"
+						 th:object="${restaurant}" class="was-validated"
+						enctype="multipart/form-data">
+						<div class="mb-3">
+							<label for="name" class="form-label text-success">Name</label> <input
+								type="text" th:field="*{name}" id="updateName" maxlength="40"
+								class="form-control" minlength="3" required />
+							<div class="invalid-feedback">Please Enter Restaurant Name.</div>
+						</div>
+
+						<div class="mb-3">
+							<label for="email" class="form-label text-success">Email</label>
+							<input type="email" th:field="*{email}" id="updateEmail"
+								maxlength="40" class="form-control" required />
+								<div class="invalid-feedback">Please Enter Restaurant Email</div>
+						</div>
+
+						<div class="mb-3">
+							<label for="phone_number" class="form-label text-success">Phone
+								Number</label> <input type="text" class="form-control"
+								id="updatePhoneNumber" oninput="validatePhoneNumber(this)"
+								placeholder="Enter your phone number!" required
+								th:field="*{phone_number}">
+							<div class="invalid-feedback">Please Enter Restaurant Phone
+								Number.</div>
+						</div>
+						<div class="mb-3">
+							<label for="address" class="form-label text-success">Address</label>
+							<textarea class="form-control" rows="4" cols="50" maxlength="255"
+								required minlength="3" id="updateAddress"
+								placeholder="Enter your restaurant Address!"
+								th:field="*{address}"></textarea>
+							<div class="invalid-feedback">Please Enter Restaurant
+								Address.</div>
+						</div>
+
+						<div class="mb-3">
+							<label for="description" class="form-label text-success">Description</label>
+							<textarea class="form-control" maxlength="255"
+								id="updateDescription" placeholder="Write a description here!"
+								required rows="4" cols="50" th:field="*{description}"></textarea>
+							<div class="invalid-feedback">Please Enter Restaurant
+								Description.</div>
+						</div>
+
+						<hr>
+						<div class="modal-footer">
+							<input type="hidden" th:field="*{id}" id="updateId" /> <input
+								type="reset" class="modalBtn btn btn-outline-danger col"
+								value="Reset"> <input type="submit"
+								class="modalBtn btn btn-success col" value="Update">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- Update Restaurant Logo Modal -->
+
+		<div class="modal fade" id="updateRestaurantLogoModal">
+
+			<div class="modal-dialog">
+				<div class="modal-content" style="padding: 10px 20px;">
+					<div class="modal-header">
+						<h1 align="center" class="modal-title fs-5 fw-3"
+							id="staticBackdropLabel">Update Restaurant Logo</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+
+					<form th:action="@{/admin/updateRestaurantLogo}" method="post"
+						th:object="${restaurant}" enctype="multipart/form-data">
+
+						<p th:text="${errorLogo}" class="text-danger"></p>
+
+						<div class="mb-3">
+							<label for="path" class="form-label"> <i
+								class="fa-solid fa-folder"></i>Upload Logo Images
+							</label> <input th:field="*{logo}" class="form-control" type="file"
+								id="formFile" name="logo">
+						</div>
+
+
+
+						<div class="modal-footer">
+							<input type="hidden" th:field="*{id}" id="updateLogoRestaurantId" />
+							<input type="button" class="modalBtn btn btn-outline-danger col"
+								value="Cancel" data-bs-dismiss="modal"> <input
+								type="submit" class="modalBtn btn btn-success col"
+								value="Update">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- Update Restaurant image Modal -->
+
+		<div class="modal fade" id="updateRestaurantImageModal">
+
+			<div class="modal-dialog">
+				<div class="modal-content" style="padding: 10px 20px;">
+					<div class="modal-header">
+						<h1 align="center" class="modal-title fs-5 fw-3"
+							id="staticBackdropLabel">Update Restaurant Image</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+
+					<form th:action="@{/admin/updateRestaurantImage}" method="post"
+						th:object="${restaurant}" enctype="multipart/form-data">
+
+						<p th:text="${errorImage}" class="text-danger"></p>
+
+						<div class="mb-3">
+							<label for="path" class="form-label"> <i
+								class="fa-solid fa-folder"></i>Upload Fav Images
+							</label> <input th:field="*{image}" class="form-control" type="file"
+								id="formFile" name="image">
+						</div>
+
+
+
+						<div class="modal-footer">
+							<input type="hidden" th:field="*{id}"
+								id="updateImageRestaurantId" /> <input type="button"
+								class="modalBtn btn btn-outline-danger col" value="Cancel"
+								data-bs-dismiss="modal"> <input type="submit"
+								class="modalBtn btn btn-success col" value="Update">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+		<script th:src="@{/resources/assets/js/adminRestaurant.js}"></script>
+	</div>
+</body>
+</html>

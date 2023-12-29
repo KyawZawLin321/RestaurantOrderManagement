@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/anonymous.html}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Record</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<!--------- table --------->
+		<!------- table----- -->
+		<!-- -------table------->
+		<section class="py-4 overflow-hidden" style="min-height: 100vh;">
+			<div class="container">
+				<div class="row h-100">
+					<div class="col-lg-7 mx-auto text-center mt-5 mb-3">
+						<h5 class="fw-bold fs-3 fs-lg-5 lh-sm">Order Messages</h5>
+					</div>
+					<div class="col-12 card table-responsive shadow mb-4 bg-light ">
+						<h4 class="p-2 m-2"></h4>
+						<div class="card-header"></div>
+						<div class="card-body" th:if="${#lists.isEmpty(messages)   or messages ==null }">
+							<div >
+								<div style="min-height:100px;">
+							
+									<h4 class="mt-3"><u>No Message <i class="fa-solid fa-xmark ms-2 text-danger"></i></u></h4> 
+										
+									<p class="text-primary">There are no message in your order message box</p>
+										
+								</div>
+							</div>
+						</div>					
+						<div class="card-body" th:each="message , i: ${messages}">
+							
+							<div th:if="${message.status=='confirm'}">
+								<div th:if="${message.orderCompletionTime}!=null and ${message.orderCompletionTime}!=''">
+									<h4><u>Order Confrim <i class="fa-solid fa-check ms-2 text-success"></i></u> </h4> Date - <span th:text="${message.createDate}"></span>
+									<p class="text-success">You can take your order(<b th:text="${message.orderNumber}"></b>) at <span th:text="${message.orderCompletionTime}"></span>. </p>
+									<p>Thank you for choosing <span th:text="${message.restaurantName}"></span><i>.If you has any question,Please call <span th:text="${message.restaurantPhoneNumber}"></span></i></p>
+								</div>
+								<div th:if="${message.deliveryArrivalTime}!=null and ${message.deliveryArrivalTime}!=''">
+									<h4><u>Order Confrim <i class="fa-solid fa-check ms-2 text-success"></i></u> </h4>Date - <span th:text="${message.createDate}"></span>
+									<p class="text-success">Your Order(<b th:text="${message.orderNumber}"></b>) will deliver around <span th:text="${message.deliveryArrivalTime}"></span>. </p>
+									<p>Thank you for choosing <span th:text="${message.restaurantName}"></span><i>.If you has any question,Please call <span th:text="${message.restaurantPhoneNumber}"></span></i></p>
+								</div>
+	
+							</div>
+							<div th:if="${message.status=='reject'}">
+								<div >
+									<h4><u>Order Reject <i class="fa-solid fa-xmark ms-2 text-danger"></i></u></h4>
+									 <lable >Date</lable> - <span class="me-2" th:text="${message.createDate}"></span><br> 
+									 <lable >Reason</lable> - "<span class="text-muted" th:text="${message.rejectMessage}"></span>"
+									<p>Sorry For Rejection your order(<b th:text="${message.orderNumber}"></b>). </p>
+									<b class="text-danger fw-bolder">We will connect you as soon as And REFUND.</b>
+									<p>Thank you for choosing <span th:text="${message.restaurantName}"></span>.<i>If you has any question,Please call <span th:text="${message.restaurantPhoneNumber}"></span></i></p>
+								</div>
+							</div>
+							<div th:if="${message.status == ''}">
+								<div style="min-height:200px;" >
+									<h4><u>No Message <i class="fa-solid fa-xmark ms-2 text-danger"></i></u></h4> Date - <span th:text="${message.createDate}"></span>
+									
+									<p class="text-primary">There are no message in your order message box</p>
+								</div>
+							</div>
+							
+							<hr>
+						</div>
+						<div class="card-footer">
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- ============================================-->
+		<!--------- table --------->
+		<!------- table----- -->
+		<!-- -------table------->
+
+
+
+
+
+
+
+
+	</div>
+
+</body>
+</html>
+

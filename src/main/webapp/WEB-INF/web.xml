@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	id="WebApp_ID" version="4.0">
+	<display-name>Restaurant_Order_Management</display-name>
+
+	<servlet>
+		<servlet-name>RestaurantOrderManagement</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+		<multipart-config>
+			<!-- Maximum size allowed for an individual file (in bytes) -->
+			<max-file-size>10485760</max-file-size> <!-- 10 MB -->
+
+			<!-- Maximum size allowed for the entire request (in bytes) -->
+			<max-request-size>104857600</max-request-size> <!-- 2 MB -->
+
+			<!-- Threshold after which files will be written to disk (in bytes) -->
+			<file-size-threshold>1024</file-size-threshold> <!-- 1 KB -->
+		</multipart-config>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RestaurantOrderManagement</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<filter>
+		<filter-name>LogFilter</filter-name>
+		<filter-class>com.ai.jwd42.filter.LogFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LogFilter</filter-name>
+		<url-pattern>/owner/*</url-pattern>
+		<url-pattern>/admin/*</url-pattern>
+	</filter-mapping>
+
+	
+</web-app>

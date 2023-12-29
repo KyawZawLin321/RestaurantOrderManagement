@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">Admin</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/resourcesassets/img/favicons/favicon-32x32.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/resources/assets/img/favicons/favicon-16x16.png}">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/resources/assets/css/bootstrap.min.css}">
+    <script th:src="@{/resources/assets/js/bootstrap.bundle.min.js}" crossorigin="anonymous"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/resources/assets/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/assets/css/fontawesome.min.css}">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&amp;display=swap" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script th:src="@{/resources/assets/js/jquery.js}" crossorigin="anonymous"></script>
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+
+    <!-- Custom Styles -->
+    <style>
+        /* Add margin to the DataTables search bar */
+        .dataTables_filter {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+	<div class="container-fluid m-0 p-0">
+
+		<div class="row g-0">
+
+			<!-- ------------>
+			<!-- slid Bar -->
+			<!-- ------------>
+			<nav class="col-2 bg-light pe-3">
+				<h1 class="h4 py-3 text-center text-primary">
+					<i class="fa-solid fa-burger"></i> <span class="d-none d-lg-inline">FOODIES</span>
+				</h1>
+
+				<div class="list-group text-center text-lg-start ms-1">
+					<span class="d-none d-lg-block disabled list-group-item"> <small>
+							CONTROLS </small>
+					</span> <a th:href="@{/admin/home}"
+						class="list-group-item list-group-item-action px-0 ps-2"
+						th:classappend="${#httpServletRequest.servletPath == '/admin/home' ? 'active' : ''}"
+						id="dashboard"> <i class="fas fa-home me-2"></i> <span
+						class="d-none d-lg-inline">Admin Dashboard</span>
+					</a> <a th:href="@{/admin/addRestaurant}"
+						class="list-group-item list-group-item-action px-0 ps-2 "
+						th:classappend="${#httpServletRequest.servletPath == '/admin/addRestaurant' ? 'active' : ''}"
+						id="addrestaurantandowner"> <i class="fa-solid fa-shop"></i><i
+						class="fa-solid fa-plus " style="font-size: 10px;"></i> <span
+						class="d-none d-lg-inline me-2">Add Restaurants</span>
+
+					</a> <a th:href="@{/admin/displayUsers}"
+						class="list-group-item list-group-item-action px-0 ps-2 "
+						th:classappend="${#httpServletRequest.servletPath == '/admin/displayUsers' ? 'active' : ''}"
+						id="displayUsers"> <i class="fa-solid fa-user-group me-2"></i>
+						<span class="d-none d-lg-inline">Users</span>
+					</a> <a th:href="@{/admin/displayRestaurant}"
+						class="list-group-item list-group-item-action px-0 ps-2"
+						th:classappend="${#httpServletRequest.servletPath == '/admin/displayRestaurant' ? 'active' : ''}"
+						id="displayRestaurant"> <i class="fa-solid fa-store me-2"></i>
+						<span class="d-none d-lg-inline">Restaurants</span>
+					</a>
+				</div>
+
+			</nav>
+
+			<!-- ------------>
+			<!-- slid Bar -->
+			<!-- ------------>
+
+			<!-- ------------>
+			<!-- main  -->
+			<!-- ------------>
+			<main class="col-10">
+
+				<!-- ------------------>
+				<!-- Main Top Nav Bar -->
+				<!-- ------------------->
+				<nav class="navbar navbar-expand-lg navbar-light bg-light">
+					<div class="flex-fill"></div>
+					<div class="navbar nav mx-5">
+						<div class="d-flex text-center">
+							<span class="text-dark fs-4">Admin</span>
+						</div>
+						<li class="nav-item dropdown"><a href="#"
+							class="nav-link dropdown-toggle" data-bs-toggle="dropdown"> <i
+								class="fas fa-user-circle"></i>
+						</a>
+
+							<ul class="dropdown-menu">
+								<li><a th:href="@{/admin/profile}" class="dropdown-item">Admin
+										Profile</a></li>
+								<li><a th:href="@{/admin/logout}" class="dropdown-item">Logout</a>
+								</li>
+							</ul></li>
+						<li class="nav-item dropdown"><a href="#"
+							data-bs-toggle="dropdown" class="nav-link dropdown-toggle"
+							data-bs-display="static"> <i class="fas fa-cog"></i>
+						</a>
+							<ul class="dropdown-menu dropdown-menu-end">
+								<li><a th:href="@{/admin/changePassword}"
+									class="dropdown-item">Change Password</a></li>
+
+							</ul></li>
+					</div>
+				</nav>
+				<!-- ------------------>
+				<!-- Main Top Nav Bar -->
+				<!-- ------------------->
+
+
+
+				<!--- ------------------>
+				<!---- Main Content ---->
+				<!-- ------------------->
+
+				<div layout:fragment="content"></div>
+
+				<!--- ------------------>
+				<!---- Main Content ---->
+				<!-- ------------------->
+
+			</main>
+			<!-- ------------>
+			<!-- main  -->
+			<!-- ------------>
+
+		</div>
+		<!-- ------------>
+		<!-- footer -->
+		<!-- ------------>
+
+
+		<footer class="text-center py-2 text-muted bg-light"> &copy;
+			Copyright 2023 </footer>
+
+	</div>
+
+
+
+	<!-- ===============================================-->
+	<!--    JavaScripts-->
+	<!-- ===============================================-->
+	<script th:src="@{/resources/assets/js/admin.js}"></script>
+
+
+
+
+</body>
+</html>

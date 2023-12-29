@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/anonymous.html}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+
+
+
+		<!-- =================================================-->
+		<!--===============  Cart  =================-->
+		<!-- =================================================-->
+		<section class="py-0 overflow-hidden" style="min-height: 100vh;">
+			<div class="container-fluid">
+
+				<div class="col-lg-7 mx-auto text-center mt-7 mb-5">
+					<h5 class="fw-bold fs-3 fs-lg-5 lh-sm">Cart items</h5>
+				</div>
+				<div class="col-md-10 col-11 mx-auto">
+					<div class="row my-5 gx-3">
+						<!-- left side div -->
+						<div id="cartContainer"
+							class="col-md-12 overflow-hidden col-lg-8 col-11 mx-auto main_cart mb-lg-0 mb-5 shadow "
+							style="height: fit-content; min-height: 300px;">
+
+							<!-- To Show if No Item  -->
+							<div th:if="${#lists.isEmpty(cartItems)}"
+								style="min-height: inherit;"
+								class="card w-100 h-100 text-center">
+								<div class="card-body row m-3 alert-dark">
+									<h4 class="text-warning alert alert-info" role="alert"
+										style="align-self: center; font-variant: petite-caps;">There
+										is 0 Items in Your Cart !</h4>
+								</div>
+							</div>
+							<!-- To Show if No Item  -->
+
+							<div class="card " th:if="${cartItems}"
+								th:each="cartItem : ${cartItems}">
+								<div class="card-body row d-flex justify-content-center">
+									<div class="col-4 d-flex justify-content-center">
+										<img th:src="@{${cartItem.image}}" class="img-fluid rounded"
+											style="min-height: 200px; min-width: 220px;" alt="...">
+									</div>
+									<div class="col-md-7 col-11 mx-auto px-4 mt-2">
+										<div class="row">
+											<!-- product name  -->
+											<div class="col-6 p-0 m-0 card-title">
+												<h3 class="mb-2 product_name" th:text="${cartItem.name}"></h3>
+
+											</div>
+
+											<!-- quantity inc dec -->
+											<div class="col-6">
+												<ul class="pagination justify-content-end set_quantity">
+													<li class="page-item">
+														<button class="page-link "
+															th:attr="data-cartid=${cartItem.id}, data-action='decrease' , data-max-quantity=${cartItem.maxQuantity} , data-type=${cartItem.type}"
+															onclick="changeQuantity(this)">
+															<i class="fas fa-minus"></i>
+														</button>
+													</li>
+													<li class="page-item"><input type="text"
+														class="page-link" style="width: 50px;"
+														th:value="${cartItem.quantity}"
+														th:id="'quantity-' + ${cartItem.id} + ${cartItem.type}"
+														readonly></li>
+													<li class="page-item">
+														<button class="page-link"
+															th:attr="data-cartid=${cartItem.id}, data-action='increase' , data-max-quantity=${cartItem.maxQuantity} , data-type=${cartItem.type}"
+															onclick="changeQuantity(this)">
+															<i class="fas fa-plus"></i>
+														</button>
+													</li>
+												</ul>
+											</div>
+											<div class="col p-0 m-0">
+												<p class="mb-1"></p>
+												<p class="mb-1 text-warning" style="width: 100%;"
+													th:text="${cartItem.category}"></p>
+												<p
+													th:text="${cartItem.type}=='foodSet'? ${cartItem.type}:''"
+													class="mb-1 text-warning" style="width: 100%;">foodSet</p>
+												<p class="mb-1">
+													This Item for Order Maximun No. is <span
+														th:text="${cartItem.maxQuantity}"></span>
+												</p>
+											</div>
+
+										</div>
+										<!-- //remover move and price -->
+										<div class="row ">
+											<div class="col-6 d-flex justify-content-between p-0 m-0">
+												<p>
+													<a class="btn btn-danger text-dark p-2"
+														th:attr="data-cartid=${cartItem.id} , data-type=${cartItem.type}"
+														onclick="deleteCartItem(this)"><i
+														class="fas fa-trash-alt me-2"></i>REMOVE</a>
+												</p>
+
+											</div>
+											<div class="col-6 d-flex justify-content-end price_money">
+												<h3 class="text-nowrap">
+													MMK <span
+														th:id="'itemPrice-' + ${cartItem.id} + ${cartItem.type}"
+														th:attr="data-original-price=${cartItem.price}"
+														th:text="${cartItem.price * cartItem.quantity}">0.00 </span>
+														
+												</h3>
+											</div>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+						<!-- right side div -->
+						<div class="col-md-12 col-lg-4 col-11 mx-auto mt-lg-0 mt-md-5">
+							<div class="right_side p-3 shadow bg-white">
+								<h2 class="product_name mb-5">The Total Amount Of</h2>
+								<div class="price_indiv d-flex justify-content-between">
+									<p>Product amount</p>
+									<p>
+										MMK <span id="totalCartPrice">0.00</span>
+									</p>
+								</div>
+								<hr>
+								<div>
+									<label class="fw-medium lh-base">Please Choose Your
+										Order Type</label>
+								</div>
+								<div id="orderType">
+									<nav>
+										<div class="row nav nav-tabs" id="nav-tab" role="tablist">
+	
+											<button th:each="orderType : ${orderTypes}"
+												class=" col nav-link mb-3" data-bs-toggle="tab"
+												th:data-bs-target="'#nav-'+${orderType.orderTypeName}"
+												type="button" role="tab" aria-controls="nav-profile"
+												aria-selected="false" id="orderType"
+												th:attr="data-id=${orderType.id} , data-ordertype-name=${orderType.orderTypeName}, data-ordertype-id=${orderType.orderTypeId}"
+												onclick="chooseOrderType(this)">
+												<i class="fa-solid fa-boxes-packing me-1"></i><span
+													th:text="${orderType.orderTypeName}"></span>
+											</button>
+										</div>
+									</nav>
+									<div class="tab-content mt-3" id="nav-tabContent">
+										<div th:each="orderType : ${orderTypes}"
+											class="tab-pane fade show"
+											th:id="'nav-'+${orderType.orderTypeName}" role="tabpanel"
+											aria-labelledby="nav-home-tab">
+											<div th:if="${orderType.orderTypeName=='delivery'}">
+												<label>Example : No.20,Zay Gyi St,Kyi Myin Daing
+													Township</label>
+												<div class="row gx-2 gy-2 align-items-center">
+													<div class="col">
+														<form class="input-group-icon was-validated">
+	
+															<input
+																class="form-control input-box form-foodwagon-control"
+																id="deliveryAddress" type="text"
+																placeholder="Enter Full Of Your Address" required />
+															<div class="invalid-feedback">Please enter Delivery
+																Address in the text.</div>
+														</form>
+	
+													</div>
+	
+												</div>
+												<div class="d-flex justify-content-between mt-3">
+													<p>Delivery Charge</p>
+													<p>
+														MMK <span id="deliveryCharge">0.00</span>
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="price_indiv d-flex justify-content-between">
+									<p>Tax Charge</p>
+									<p>
+										MMK <span id="taxCharge">0.00</span>
+									</p>
+								</div>
+								<hr class="border border-success border-2 opacity-50">
+								<div
+									class="total-amt d-flex justify-content-between font-weight-bold">
+									<p>The total amount of (including VAT)</p>
+									<p>
+										MMK <span id="totalOrderPrice">0.00</span>
+									</p>
+								</div>
+								<input type="hidden" id="orderTypeForRestaurantId"> 
+								<input type="hidden" id="orderTypeId">
+								
+								<button id="checkoutBtn" class="btn btn-primary text-uppercase">Checkout</button>
+								<span id="message" style="color:red;" class="mb-2"></span>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</section>
+
+
+		<!-- =================================================-->
+		<!--===============  Cart  =================-->
+		<!-- =================================================-->
+		
+		<!-- modal -->
+		<!-- Confirm for Cart Fragment -->
+		<div th:replace="fragment/modals :: checkoutModal"></div>
+		<!-- modal -->
+		<!-- Confirm for Cart Fragment -->
+
+
+	</div>
+
+</body>
+</html>

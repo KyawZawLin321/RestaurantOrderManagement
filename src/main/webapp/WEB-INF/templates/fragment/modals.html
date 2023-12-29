@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+
+
+	<!-- Login And Register Fragment -->
+	<!-- Modal -->
+	<div th:fragment="login" class="modal fade" id="loginModal"
+		data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content login-content mx-auto">
+				<main class="wrapper active-popup">
+					<div id="icon">
+						<span class="icon-close bg-secondary d-flex align-items-center"
+							data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></span>
+					</div>
+
+					<!-- Login Form -->
+					<div class="container login-box">
+						<form method="post" th:action="@{/login}" th:object="${user}">
+							<h3 align="center" class="fw-bolder opacity-75  text-white">Login Here</h3>
+							<div align="center">
+								<h4 class="text-success d-inline" id="loginMessage"
+									th:text="${message}"></h4>
+								<h4 class="text-success d-inline" th:text="${back}"></h4>
+								<h4 class="text-success d-inline" th:text="${msg}"
+									id="successMsg"></h4>
+							</div>
+
+							<hr>
+							<div class="mb-3 input-box1">
+								<label class="fw-bolder text-white ">Email</label> <input
+									type="text" placeholder="Enter Email" th:field="*{email}"
+									class="text-white opacity-50" required />
+							</div>
+							<div class="mb-3 input-box1">
+								<label class="fw-bolder text-white ">Password</label> <input
+									type="password" placeholder="Enter Password"
+									th:field="*{password}" class="text-white opacity-50" required />
+							</div>
+							<div class="mb-3 form-check">
+								<input type="checkbox" id="rememberMe" th:field="*{rememberMe}"
+									class="form-check-input" /> <label for="rememberMe"
+									class="form-check-label fw-bold text-white opacity-50">Remember
+									Me?</label>
+							</div>
+							<span class="text-danger fw-bolder" th:text="${error}"
+								id="loginMsg"></span> <input type="hidden" name="loginDateTime"
+								th:field="*{loginDateTime}" />
+							<button type="submit" class="btn btn-secondary">Login</button>
+							<div class="login-register">
+								<p class="text-white opacity-50">
+									Don't have an account? <a href="#"
+										class="register-link fw-bolder text-warning"
+										id="registerButton">Register here</a>
+								</p>
+							</div>
+						</form>
+					</div>
+
+
+					<!-- Register Form -->
+					<div class="container register-box ">
+						<form method="post" th:action="@{/addUser}" th:object="${user}">
+							<h3 align="center" class="fw-bold opacity-75 text-white">Register Here</h3>
+
+							<div align="center">
+								<h5 class="text-success fw-bolder" th:text="${registerSuccess}"
+									id="registerSuccess"></h5>
+								<span class="text-danger fw-bolder" th:text="${registerMessage}"
+									id="registerMsg"></span>
+							</div>
+							<hr>
+							<div class="input-box1">
+								<label for="name" class="fw-bolder text-white">Username</label> <input
+									type="text" th:field="*{name}" placeholder="Username"
+									class="text-white opacity-50" minlength="3" maxlength="40" required />
+							</div>
+							<div class="input-box1">
+								<label for="email" class="fw-bolder text-white">Email</label> <input
+									type="email" th:field="*{email}" placeholder="Email"
+									class="text-white opacity-50" minlength="10" maxlength="40" required />
+							</div>
+							<div class="input-box1">
+								<label for="phoneNumber" class="fw-bolder text-white">PhoneNumber</label> <input
+									type="text" th:field="*{phoneNumber}" placeholder="Phonenumber"
+									class="text-white opacity-50" oninput="validatePhoneNumber(this)" required />
+							</div>
+							<div class="input-box1">
+								<label for="address" class="fw-bolder text-white">Address</label> <input
+									type="text" th:field="*{address}" placeholder="Address"
+									class="text-white opacity-50" maxlength="255" required minlength="3" />
+
+							</div>
+							<div class="input-box1">
+								<label for="password" class="fw-bolder text-white">Password</label> <input
+									type="password" th:field="*{password}" placeholder="Password"
+									class="text-white opacity-50" required minlength="3" maxlength="20" />
+							</div>
+							<div class="input-box1">
+								<label for="comfirmPassword" class="fw-bolder text-white">Confirm
+									Password</label> <input type="password" th:field="*{comfirmPassword}"
+									placeholder="Comfirm Password" required minlength="3"
+									class="text-white opacity-50" maxlength="20" />
+							</div>
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" id="Check"
+									name="agree" required /> <label
+									class="form-check-label fw-bold text-white opacity-50" for="Check">I agree to
+									the terms and conditions</label>
+							</div>
+							<button type="submit" class="btn btn-secondary">Register</button>
+							<div class="login-register">
+								<p class="text-white opacity-50">
+									Already have an account? <a href="#"
+										class="login-link fw-bolder text-warning">Login here</a>
+								</p>
+							</div>
+						</form>
+					</div>
+				</main>
+			</div>
+		</div>
+	</div>
+
+	<!-- Login And Register Fragment -->
+
+
+	<!--New Restaurant Confirm Modal -->
+	<div th:fragment="confirmationModal" class="modal fade"
+		id="confirmationModal" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmation</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">Adding items from a new restaurant
+					will clear your current cart. Do you want to proceed?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary" id="confirmModalBtn">Confirm</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--New Restaurant Confirm Modal -->
+
+
+	<!--Order Confirm Modal -->
+	<div th:fragment="checkoutModal" class="modal fade" id="checkoutModal"
+		data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="staticBackdropLabel">Check
+						Out</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<form th:object="${order}" th:action="@{/user/order}" method="post"
+					th:onsubmit="confirmOrder()" enctype="multipart/form-data"
+					class="modal-body">
+					<div class="mb-2 text-warning">Please Select Payment Type</div>
+					<nav>
+						<div class="row nav nav-tabs" id="nav-tab" role="tablist">
+
+							<button th:each="paymentType : ${paymentTypes}"
+								class=" col nav-link mb-3" data-bs-toggle="tab"
+								th:data-bs-target="'#nav-'+${paymentType.paymentTypeName}"
+								type="button" role="tab" aria-controls="nav-profile"
+								aria-selected="false"
+								th:attr="data-id=${paymentType.id} , data-paymanttype-name=${paymentType.PaymentTypeName}, data-paymenttype-id=${paymentType.paymentTypeId}"
+								onclick="choosePaymentType(this)">
+								<i class="fa-solid fa-money-check-dollar"></i> <span
+									th:text="${paymentType.paymentTypeName}"></span>
+							</button>
+						</div>
+					</nav>
+					<div class="tab-content my-3" id="nav-tabContent">
+						<div th:each="paymentType : ${paymentTypes}"
+							class="tab-pane fade show"
+							th:id="'nav-'+${paymentType.paymentTypeName}" role="tabpanel"
+							aria-labelledby="nav-home-tab">
+							<div th:if="${paymentType.paymentTypeName=='kpay'}">
+								<div class="row gx-2 gy-2 align-items-center">
+									<div class="col was-validated">
+										<h5 class="d-block text-center text-success p-100">Scan
+											Me</h5>
+										<img th:src="@{${paymentType.qrcode}}"
+											class="img-fluid img-thumbnail rounded mx-auto d-block">
+										<div class="row mb-2">
+											<span>( or )</span> <label class="col-3"><h5
+													class="d-inline" th:text="${paymentType.paymentTypeName}"></h5>
+												No - </label>
+											<h4 class="d-inline col">
+												<span th:text="${paymentType.phoneNumber}"></span>
+											</h4>
+										</div>
+
+										<input class="form-control input-box form-foodwagon-control"
+											accept="image/*" id="kpayinput" type="file"
+											th:field="*{screenShot}" required />
+										<div class="invalid-feedback">Please Upload Trsnsaction
+											Screenshot!</div>
+
+									</div>
+								</div>
+							</div>
+							<div th:if="${paymentType.paymentTypeName=='wave'}">
+								<div class="row gx-2 gy-2 align-items-center">
+									<div class="col was-validated">
+										<h5 class="d-block text-center text-success p-100">Scan
+											Me</h5>
+										<img th:src="@{${paymentType.qrcode}}"
+											class="img-fluid img-thumbnail rounded mx-auto d-block">
+										<div class="row mb-2">
+											<span>( or )</span> <label class="col-3"><h5
+													class="d-inline" th:text="${paymentType.paymentTypeName}"></h5>
+												No - </label>
+											<h4 class="d-inline col">
+												<span th:text="${paymentType.phoneNumber}"></span>
+											</h4>
+										</div>
+
+										<input class="form-control input-box form-foodwagon-control" accept="image/*"
+											id="waveinput" type="file" th:field="*{screenShot}" required />
+										<div class="invalid-feedback">Please Upload Trsnsaction
+											Screenshot!</div>
+
+									</div>
+								</div>
+							</div>
+							<div th:if="${paymentType.paymentTypeName=='bank'}">
+								<div class="row gx-2 gy-2 align-items-center">
+									<div class="col was-validated">
+										<h5 class="d-block text-center text-success p-100">Scan
+											Me</h5>
+										<img th:src="@{${paymentType.qrcode}}"
+											class="img-fluid img-thumbnail rounded mx-auto d-block">
+										<div class="row mb-2">
+											<span>( or )</span> <label class="col-3"><h5
+													class="d-inline" th:text="${paymentType.paymentTypeName}"></h5>
+												No - </label>
+											<h4 class="d-inline col">
+												<span th:text="${paymentType.accountNumber}"></span>
+											</h4>
+										</div>
+
+										<input class="form-control input-box form-foodwagon-control"
+											id="bankinput" accept="image/*" type="file"
+											th:field="*{screenShot}" required />
+										<div class="invalid-feedback">Please Upload Trsnsaction
+											Screenshot!</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="orderSummary"></div>
+
+
+
+
+
+					<div class="modal-footer">
+						<div id="paymentTypeError" class="text-danger"></div>
+
+
+						<input type="hidden" id="modalTotalCartPriceInput"> <input
+							type="hidden" id="modalTaxChargeInput" th:field="*{taxCharge}">
+						<input type="hidden" id="modalDeliveryChargeInput"
+							th:field="*{deliveryCharge}"> <input type="hidden"
+							id="modalTotalOrderPriceInput" th:field="*{totalPrice}">
+						<input type="hidden" id="modalOrderTypeForRestaurantIdInput">
+						<input type="hidden" id="modalOrderTypeIdInput"
+							th:field="*{orderTypeId}"> <input type="hidden"
+							id="modalDeliverAddressInput" th:field="*{deliveryAddress}">
+						<input type="hidden" id="modalPaymentTypeForRestaurantIdInput">
+						<input type="hidden" id="modalPaymentTypeIdInput"
+							th:field="*{paymentTypeId}">
+
+
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary" id="confirmModalBtn">Place
+							Order</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+	<!--Order Confirm Modal -->
+
+
+
+	<!-- Add a modal to display the image details -->
+	<div th:fragment="imageDetailModal" class="modal fade" id="imageModal"
+		tabindex="-1" role="dialog" aria-labelledby="imageModalLabel"
+		aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+		<div class="modal-dialog modal-dialog-centered modal-lg"
+			role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="imageModalLabel">Image Detail</h5>
+					<button type="button" class="close" data-bs-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<img id="modalImage" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Add a modal to display the image details -->
+
+
+
+	<!--Owner Order Confirm Modal -->
+	<div th:fragment="orderConfirm" class="modal fade" id="orderConfirm"
+		data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="staticBackdropLabel">Order
+						Confrimation</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<form th:object="${orderMessage}"
+						th:action="@{/owner/confirmOrder}" method="post">
+						<div class="mb-3" id="orderCompletionTimeDiv">
+							<label for="exampleInputEmail1" class="form-label">Order
+								Completion Time For <span class="text-warning" id="orderNumber"></span>
+							</label> <input type="time" class="form-control"
+								th:field="*{orderCompletionTime}" id="confirmPickupInput"
+								aria-describedby="emailHelp" required>
+							<div id="emailHelp" class="form-text">Choose Time TO Take
+								Order For User</div>
+						</div>
+
+						<div class="mb-3" id="deliveryArrivalTimeDiv">
+							<label for="exampleInputEmail1" class="form-label">Delivery
+								Arrival Time For <span class="text-warning" id="deliOrderNumber"></span>
+							</label> <input type="time" class="form-control"
+								th:field="*{deliveryArrivalTime}" id="confirmDeliInput"
+								aria-describedby="emailHelp" required>
+							<div id="emailHelp" class="form-text">Choose Delivery
+								Arrival Time</div>
+						</div>
+
+						<div class="modal-footer">
+							<input type="hidden" id="orderNumberConfirmInput"
+								th:field="*{orderNumber}">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Cancel</button>
+							<button type="submit" class="btn btn-primary"
+								id="confirmModalBtn">Confirm</button>
+						</div>
+					</form>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!--Owner Order Confirm Modal -->
+
+	<!--Owner Order reject Modal -->
+	<div th:fragment="orderConfirm" class="modal fade" id="orderReject"
+		data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="staticBackdropLabel">Order
+						Rejection</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<form th:object="${orderMessage}" th:action="@{/owner/rejectOrder}"
+						method="post">
+						<div class="mb-3">
+							<label for="exampleInputEmail1" class="form-label">Rejection
+								Reason For <span id="rejectOrderNumber" class="text-warning"></span>
+							</label> <input type="text" class="form-control" minlength="10"
+								maxlength="70" required th:field="*{rejectMessage}"
+								aria-describedby="help">
+							<div id="help" class="form-text">Enter Reason For Rejection
+							</div>
+						</div>
+
+
+						<div class="modal-footer">
+							<input type="hidden" id="orderNumberRejectInput"
+								th:field="*{orderNumber}">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Cancel</button>
+							<button type="submit" class="btn btn-primary"
+								id="confirmModalBtn">Confirm</button>
+						</div>
+					</form>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!--Owner Order reject Modal -->
+
+
+
+	<!--User Update Modal -->
+	<div th:fragment="userUpdate" class="modal fade" id="userUpdateModal"
+		data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5 " id="staticBackdropLabel">Profile
+						Edit</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<form th:object="${user}" th:action="@{/user/update}" method="post"
+					class="modal-body">
+					<div align="center">
+						<div id="messageUpdate" class="text-success fw-bolder"
+							th:text="${messageUpdate}"></div>
+						<div id="errorUpdate" class="text-danger fw-bolder"
+							th:text="${errorUpdate}"></div>
+					</div>
+
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Name</label> <input
+							type="text" class="form-control" th:field="*{name}"
+							id="userNameInput" minlength="3" maxlength="40" required>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Email
+							address</label> <input type="email" class="form-control"
+							th:field="*{email}" id="userEmailInput" minlength="3"
+							maxlength="40" required>
+						<div id="emailHelp" class="form-text">We'll never share your
+							email with anyone else.</div>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Phone
+							Number</label> <input type="tel" class="form-control"
+							th:field="*{phoneNumber}" id="userPhoneInput"
+							aria-describedby="phoneHelp" oninput="validatePhoneNumber(this)"
+							required>
+						<div id="phoneHelp" class="form-text">We'll never share your
+							phone with anyone else.</div>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Address</label>
+						<input type="text" class="form-control" th:field="*{address}"
+							id="userAddressInput" aria-describedby="addHelp" maxlength="255"
+							required minlength="3">
+						<div id="addHelp" class="form-text">We'll never share your
+							Address with anyone else.</div>
+					</div>
+
+					<div class="modal-footer row">
+
+
+						<input type="hidden" id="userIdInput" th:field="*{id}">
+
+						<button type="button" class="btn btn-secondary col "
+							data-bs-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary col"
+							id="confirmModalBtn">Edit Profile</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+	<!--User Update Modal -->
+
+
+
+
+
+</body>
+</html>

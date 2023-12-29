@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/restaurantOwner.html}">
+<head>
+<title>Profile</title>
+
+
+
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<!--- ------------------>
+		<!---- Main Content ---->
+		<!-- ------------------->
+
+		<div class="container-fluid  p-4 " style="min-height: 500px;">
+
+			<div class="row mt-1">
+				<h4 class="fw-bolder text-info" th:text="${messageImage}"></h4>
+				<h4 class="fw-bolder text-info" th:text="${messageLogo}"></h4>
+				<h4 class="fw-bolder text-danger" th:text="${errorImage}"
+					id="errorImage"></h4>
+				<h4 class="fw-bolder text-danger" th:text="${errorLogo}"
+					id="errorLogo"></h4>
+				<h4 class="fw-bolder text-info" th:text="${message}" id="message"></h4>
+				<input type="hidden" th:value="${restaurant.id}" id="restaurantId">
+				<div class="col-md-6">
+					<div class="profile-head mb-5 pb-4">
+						<div class="position-relative d-inline-block me-3">
+							<img th:src="@{${restaurant.logo}}" class="img-fluid rounded"
+								style="width: 64px; height: 64px;" /> <a
+								th:id="'logo-'+${restaurant.id}"
+								class="position-absolute bottom-0 end-0 badge rounded-pill bg-danger"
+								href="#" data-bs-toggle="modal"
+								data-bs-target="#updateRestaurantLogoModal"> <i
+								class="fa-solid fa-pen-to-square"></i>
+							</a>
+						</div>
+						<h5 class="d-inline">
+							<span th:text="${restaurant.name}" class="text-warning fw-bolder"></span>
+						</h5>
+						<p style="font-size: 12px; font-weight: 600;"></p>
+
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+
+							<li class="nav-link col active" id="nav-home-tab"
+								data-bs-toggle="tab" data-bs-target="#home" role="tab"
+								aria-controls="nav-home" aria-selected="true"><i
+								class="fa-solid fa-shop me-3"></i>Restaurant Profile</li>
+							<li class="nav-link col" id="nav-profile-tab"
+								data-bs-toggle="tab" data-bs-target="#profile" role="tab"
+								aria-controls="nav-profile" aria-selected="false"><i
+								class="fa-solid fa-user-tie me-3"></i>Owner Profile</li>
+						</ul>
+					</div>
+					<div class="tab-content profile-tab card p-3 bg-opacity-10 mb-2"
+						id="myTabContent" style="min-height: 250px">
+						<div class="tab-pane fade show active card-body" id="home"
+							role="tabpanel" aria-labelledby="home-tab">
+							<div class="row">
+								<div class="col-md-4">
+									<label class="fw-bolder"><i
+										class="fa-solid fa-store me-2 text-warning"></i>Name</label>
+								</div>
+								<div class="col-md-4">
+									<p th:text="${restaurant.name}" class="text-info"></p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<label class="fw-bolder"><i
+										class="fa-solid fa-envelope me-2 text-warning"></i>Email</label>
+								</div>
+								<div class="col-md-4">
+									<p th:text="${restaurant.email}" class="text-info"></p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<label class="fw-bolder"><i
+										class="fa-solid fa-phone-volume me-2 text-warning"></i>Phone
+										Number</label>
+								</div>
+								<div class="col-md-4">
+									<p th:text="${restaurant.phone_number}" class="text-info"></p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<label class="fw-bolder"><i
+										class="fa-regular fa-address-card me-2 text-warning"></i>Address</label>
+								</div>
+								<div class="col-md-4">
+									<p th:text="${restaurant.address}" class="text-info"></p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<label class="fw-bolder"><i
+										class="fa-regular fa-message me-2 text-warning"></i>Description</label>
+								</div>
+								<div class="col-md-5">
+									<p th:text="${restaurant.description}" class="text-info"></p>
+								</div>
+								<div class="col-md-3">
+									<a th:id="'update-'+${restaurant.id}"
+										class="text-decoration-none text-nowrap" href="#"
+										data-bs-toggle="modal"
+										data-bs-target="#updateDescriptionModal"> <i
+										class="fa-solid fa-pen-to-square me-2"></i>Edit
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade card-body" id="profile" role="tabpanel"
+							aria-labelledby="profile-tab">
+							<div class="row">
+								<div class="col-md-4">
+									<label class="fw-bolder"><i
+										class="fa-regular fa-user me-2 text-warning"></i>Name</label>
+								</div>
+								<div class="col-md-4">
+									<p th:text="${users.name}" class="text-info"></p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<label class="fw-bolder"><i
+										class="fa-solid fa-envelope me-2 text-warning"></i>Email</label>
+								</div>
+								<div class="col-md-4">
+									<p th:text="${users.email}" class="text-info">1</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<label class="fw-bolder"><i
+										class="fa-solid fa-phone-volume me-2 text-warning"></i>Phone
+										Number</label>
+								</div>
+								<div class="col-md-4">
+									<p th:text="${users.phoneNumber}" class="text-info"></p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<label class="fw-bolder"><i
+										class="fa-regular fa-address-card me-2 text-warning"></i>Address</label>
+								</div>
+								<div class="col-md-4">
+									<p th:text="${users.address}" class="text-info"></p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+
+
+				</div>
+				<div class="col-md-5 ">
+					<div class="position-relative d-inline-block text-center mb-5">
+						<img th:src="@{${restaurant.image}}" class="img-fluid rounded"
+							style="width: 300px; height: 150px;" /> <a
+							th:id="'image-'+${restaurant.id}"
+							class="position-absolute bottom-0 end-0 badge rounded-pill bg-danger"
+							href="#" data-bs-toggle="modal"
+							data-bs-target="#updateRestaurantImageModal"> <i
+							class="fa-solid fa-pen-to-square"></i>
+						</a>
+					</div>
+
+					<ol class="list-group list-group-numbered  mb-3">
+						<li
+							class="list-group-item d-flex justify-content-between align-items-start ">
+							<div class="ms-2 me-auto">
+								<div class="fw-bold">
+									<i class="fa-solid fa-calendar-check me-2"></i>You Start This
+									Day
+								</div>
+								<span th:text="${restaurant.create_date}" class="text-info"></span>
+							</div>
+						</li>
+						<li
+							class="list-group-item d-flex justify-content-between align-items-start ">
+							<div class="ms-2 me-auto">
+								<div class="fw-bold">
+									<i class="fa-solid fa-calendar-day me-2"></i> Today
+								</div>
+								<span
+									th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}"
+									class="text-info"></span>
+							</div>
+						</li>
+						<li
+							class="list-group-item d-flex justify-content-between align-items-start ">
+							<div class="ms-2 me-auto">
+								<div class="fw-bold text-warning">
+									<img
+										src="/Restaurant_Order_Management/resources/assets/img/gallery/logo.svg"
+										class="me-2">Foodies
+								</div>
+								<span class="text-info">Thank For Being With us !</span>
+							</div>
+						</li>
+					</ol>
+
+				</div>
+			</div>
+
+
+		</div>
+		<!--- ------------------>
+		<!---- Main Content ---->
+		<!-- ------------------->
+		<!-- Update Restaurant Description Modal -->
+
+		<div class="modal fade" id="updateDescriptionModal">
+
+			<div class="modal-dialog">
+				<div class="modal-content" style="padding: 10px 20px;">
+					<div class="modal-header">
+						<h1 align="center" class="modal-title fs-5 fw-3"
+							id="staticBackdropLabel">Update Description</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<p th:text="${message}" class="text-info"></p>
+					<form th:action="@{/owner/updateDescription}" method="post"
+						th:object="${restaurant}" enctype="multipart/form-data">
+
+
+						<div class="mb-3">
+							<label for="description" class="form-label text-success">Description</label>
+							<input type="text" th:field="*{description}" class="form-control"
+								maxlength="150" />
+							<p th:if="${error}" class="error-message" th:text="${error}"
+								style="color: red;"></p>
+						</div>
+
+						<hr>
+						<div class="modal-footer">
+							<input type="hidden" th:field="*{id}" id="updateId" /> <input
+								type="reset" class="modalBtn btn btn-outline-danger col"
+								value="Reset"> <input type="submit"
+								class="modalBtn btn btn-success col" value="Update">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Update Restaurant Logo Modal -->
+
+		<div class="modal fade" id="updateRestaurantLogoModal">
+
+			<div class="modal-dialog">
+				<div class="modal-content" style="padding: 10px 20px;">
+					<div class="modal-header">
+						<h1 align="center" class="modal-title fs-5 fw-3"
+							id="staticBackdropLabel">Update Restaurant Logo</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+
+					<form th:action="@{/owner/updateRestaurantLogo}" method="post"
+						th:object="${restaurant}" enctype="multipart/form-data">
+
+						<p th:text="${errorLogo}" class="text-danger"></p>
+
+						<div class="mb-3">
+							<label for="path" class="form-label"> <i
+								class="fa-regular fa-image me-2"></i>Upload Logo Images
+							</label> <input th:field="*{logo}" class="form-control" type="file" accept="image/*"
+								id="formFile" name="logo">
+						</div>
+
+
+
+						<div class="modal-footer">
+							<input type="hidden" th:field="*{id}" id="updateLogoRestaurantId" />
+							<input type="button" class="modalBtn btn btn-outline-danger col"
+								value="Cancel" data-bs-dismiss="modal"> <input
+								type="submit" class="modalBtn btn btn-success col"
+								value="Update">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- Update Restaurant image Modal -->
+
+		<div class="modal fade" id="updateRestaurantImageModal">
+
+			<div class="modal-dialog">
+				<div class="modal-content" style="padding: 10px 20px;">
+					<div class="modal-header">
+						<h1 align="center" class="modal-title fs-5 fw-3"
+							id="staticBackdropLabel">Update Restaurant Image</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+
+					<form th:action="@{/owner/updateRestaurantImage}" method="post"
+						th:object="${restaurant}" enctype="multipart/form-data">
+
+						<p th:text="${errorImage}" class="text-danger"></p>
+
+						<div class="mb-3">
+							<label for="path" class="form-label"><i
+								class="fa-regular fa-image me-2"></i>Upload Fav Images </label> <input
+								th:field="*{image}" class="form-control" type="file" accept="image/*"
+								id="formFile" name="image">
+						</div>
+
+
+
+						<div class="modal-footer">
+							<input type="hidden" th:field="*{id}"
+								id="updateImageRestaurantId" /> <input type="button"
+								class="modalBtn btn btn-outline-danger col" value="Cancel"
+								data-bs-dismiss="modal"> <input type="submit"
+								class="modalBtn btn btn-success col" value="Update">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			updateRestaurant();
+
+			function updateRestaurant() {
+				const message = document.getElementById('message');
+				const errorLogo = document.getElementById('errorLogo');
+				const errorImage = document.getElementById('errorImage');
+				const restaurantId = document.getElementById('restaurantId');
+
+				if (message.innerText != '') {
+					document.getElementById('update-' + restaurantId.value)
+							.click();
+				}
+				if (errorImage.innerText != '') {
+					document.getElementById('image-' + restaurantId.value)
+							.click();
+				}
+				if (errorLogo.innerText != '') {
+					document.getElementById('logo-' + restaurantId.value)
+							.click();
+				}
+
+			}
+		</script>
+
+	</div>
+
+
+</body>
+</html>
+

@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/admin.html}">
+<head>
+<title>Add Restaurant</title>
+
+
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<!--- ------------------>
+		<!---- Main Content ---->
+		<!-- ------------------->
+		<div class="container-fluid mt-1 p-2 " style="min-height: 500px;">
+			<div class=" row flex-column flex-lg-row mb-1">
+				<div class="text-center col">
+					<h3 class="text-warning fw-bolder d-inline">
+						<i class="fa-solid fa-shop fs-4 "></i><i
+							class="fa-solid fa-plus me-2" style="font-size: 15px"></i>Add
+						Restaurants
+					</h3>
+				</div>
+
+			</div>
+
+
+			<div class="card w-xxl-75 mx-auto my-3 shadow"
+				style="max-width: 900px;">
+				<div class="card-body">
+					<h5 th:text="${error}" class="text-danger" id="error"></h5>
+
+					<form th:action="@{/admin/addRestaurant}" method="post"
+						th:object="${restaurant}" enctype="multipart/form-data"
+						class="row p-3 gx-5  was-validated">
+
+						<div class="col-12 col-md-6">
+							<h3 class="card-title mb-3 fw-bolder text-primary">
+								<i class="fa-solid fa-store me-2"></i><span>Restaurant
+									Info</span>
+							</h3>
+							<hr>
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label"><i
+									class="fa-solid fa-shop me-2"></i>Restaurant Name</label> <input
+									type="text" class="form-control" required minlength="3"
+									maxlength="40" id="name"
+									placeholder="Enter your Restaurant name!" th:field="*{name}">
+								<div class="invalid-feedback">Please Enter Restaurant
+									name.</div>
+							</div>
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label"><i
+									class="fa-solid  fa-envelope me-2"></i>Restaurant
+									Email(Required @gmail.com)</label> <input type="email"
+									class="form-control" minlength="10" maxlength="40" id="email"
+									placeholder="Enter your restaurant Email!" th:field="*{email}"
+									required>
+								<div class="invalid-feedback">Please Enter a valid
+									Restaurant Email ending with @gmail.com.</div>
+							</div>
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label"><i
+									class="fa-solid fa-location-dot me-2"></i> Restaurant Address</label>
+								<textarea class="form-control" rows="4" cols="50"
+									maxlength="255" required minlength="3"
+									placeholder="Enter your restaurant Address!"
+									th:field="*{address}"></textarea>
+								<div class="invalid-feedback">Please Enter Restaurant
+									Address.</div>
+							</div>
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label"><i
+									class="fa-solid fa-phone me-2"></i>Restaurant Phone Number</label> <input
+									type="text" class="form-control"
+									oninput="validatePhoneNumber(this)"
+									placeholder="Enter your phone number!" required
+									th:field="*{phone_number}">
+								<div class="invalid-feedback">Please Enter Restaurant
+									Phone Number.</div>
+							</div>
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label"><i
+									class="fa-regular fa-comment me-2"></i> Description</label>
+								<textarea class="form-control"  maxlength="255"
+									placeholder="Write a description here!" required rows="4" cols="50"
+									th:field="*{description}"></textarea>
+								<div class="invalid-feedback">Please Enter Restaurant
+									Description.</div>
+							</div>
+							<div class="mb-3">
+								<label for="formFile" class="form-label"><i
+									class="fa-solid fa-panorama me-2"></i> Logo Image</label> <input
+									class="form-control" type="file" required id="formFile"
+									name="logo" th:field="*{logo}" accept="image/*">
+								<div class="invalid-feedback">Please choose Restaurant
+									logo.</div>
+							</div>
+							<div class="mb-3">
+								<label for="formFile" class="form-label"><i
+									class="fa-regular fa-image me-2"></i>Restaurant Image</label> <input
+									class="form-control" type="file" required id="formFile"
+									name="image" th:field="*{image}" accept="image/*">
+								<div class="invalid-feedback">Please choose Restaurant
+									image.</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-6">
+							<h3 class="card-title mb-3 fw-bolder text-primary">
+								<i class="fa-solid fa-user-tie me-2 "></i><span>Owner
+									Info</span>
+							</h3>
+							<hr>
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label"><i
+									class="fa-solid fa-user-tie me-2"></i> Owner Name</label> <input
+									type="text" class="form-control" required minlength="3"
+									maxlength="40" id="name" placeholder="Enter Owner name!"
+									th:field="*{ownername}">
+								<div class="invalid-feedback">Please Enter Owner Name.</div>
+							</div>
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label"><i
+									class="fa-solid fa-phone me-2"></i>Owner Phone Number</label> <input
+									type="text" class="form-control"
+									placeholder="Enter Owner Phone number!"
+									oninput="validatePhoneNumber(this)" required
+									th:field="*{ownerPhone}">
+								<div class="invalid-feedback">Please Enter Owner Phone
+									Number.</div>
+							</div>
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label"><i
+									class="fa-solid fa-location-dot me-2"></i>Owner Address</label>
+								<textarea class="form-control" rows="4" cols="50"
+									maxlength="255" required minlength="3"
+									placeholder="Enter Owner Address!"
+									th:field="*{owneraddress}"></textarea>
+								<div class="invalid-feedback">Please Enter Owner Address.</div>
+							</div>
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label"><i
+									class="fa-solid  fa-envelope me-2"></i>Owner Email</label> <input
+									type="email" class="form-control" required minlength="5"
+									maxlength="40" id="email" placeholder="Enter Owner Email!"
+									th:field="*{owneremail}">
+								<div class="invalid-feedback">Please Enter Owner Email.</div>
+							</div>
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label"><i
+									class="fa-solid fa-key me-2"></i>Password</label> <input
+									type="password" class="form-control" required minlength="3"
+									maxlength="20" id="password" placeholder="Enter Password!"
+									th:field="*{password}">
+								<div class="invalid-feedback">Please Enter Password.</div>
+							</div>
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label"><i
+									class="fa-solid fa-key me-2"></i>Confirm Password</label> <input
+									type="password" class="form-control" required minlength="3"
+									maxlength="20" id="password" placeholder="Enter Confirm password!"
+									th:field="*{confirmPassword}">
+								<div class="invalid-feedback">Please Enter Confrim
+									Password.</div>
+							</div>
+
+
+
+
+						</div>
+						<hr class="mt-2">
+						<div class="mb-2 row d-flex justify-content-center">
+
+							<button class="btn btn-danger me-2 col-5" type="reset">
+								Reset</button>
+
+							<button class="btn btn-primary col-5" type="submit">Save</button>
+						</div>
+
+					</form>
+				</div>
+			</div>
+
+
+			<!--- ------------------>
+			<!---- Main Content ---->
+			<!-- ------------------->
+		</div>
+
+	</div>
+</body>
+</html>

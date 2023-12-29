@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/admin.html}">
+
+<head>
+<title>User Info</title>
+
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<!-- ---------------- -- Main Content -- ----------------- -->
+
+		<div class="container-fluid mt-1 p-2 " style="min-height: 500px;">
+			<div class=" row flex-column flex-lg-row mb-1">
+				<div class="text-center col">
+					<h3 class="text-warning fw-bolder d-inline">
+						<i class="fa-solid fa-users-line me-2"></i>Users
+					</h3>
+				</div>
+
+			</div>
+
+			<div class="table-responsive">
+				<table id="userOrderRecord"
+					class="table  align-middle table-responsive scrollable table-striped table-bordered text-center align-middle ">
+					<thead class="text-center table-dark align-middle ">
+						<tr>
+							<th class="text-center">No</th>
+							<th class="text-center">Name</th>
+							<th class="text-center">Email</th>
+							<th class="text-center">Phone Number</th>
+							<th class="text-center">Address</th>
+							<th class="text-center">Create Date</th>
+							<th class="text-center">Update Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="user, i : ${users}">
+							<th scope="row" th:text="${i.index + 1}"></th>
+							<td th:text="${user.name}"></td>
+							<td th:text="${user.email}"></td>
+							<td th:text="${user.phoneNumber}"></td>
+							<td th:text="${user.address}"></td>
+							<td th:text="${user.createDate != null ? user.createDate : '-'}"></td>
+							<td th:text="${user.updateDate != null ? user.updateDate : '-'}"></td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+
+
+
+
+		</div>
+		<!-- - ---------------- -- Main Content -- ----------------- -->
+	</div>
+</body>
+</html>

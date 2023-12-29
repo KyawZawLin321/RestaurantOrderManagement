@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/anonymous.html}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Record</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<!--------- table --------->
+		<!------- table----- -->
+		<!-- -------table------->
+		<section class="py-4 overflow-hidden" style="min-height: 100vh;">
+			<div class="container">
+				<div class="row h-100">
+					<div class="col-lg-7 mx-auto text-center mt-5 mb-3">
+						<h5 class="fw-bold fs-3 fs-lg-5 lh-sm">Order Records</h5>
+					</div>
+					<div class="col-12 card table-responsive shadow mb-4 bg-light ">
+						<h4 class="p-2 m-2"></h4>
+						<table id="userOrderRecord"
+							class="table align-middle table-responsive scrollable table-striped table-bordered text-center align-middle ">
+							<thead class="table-dark align-middle ">
+								<tr>
+									<th class="text-center">No.</th>
+									<th class="text-center">Date</th>
+									<th class="text-center">Order Number</th>
+									<th class="text-center">Restaurant</th>
+									<th class="text-center">Order</th>
+									<th class="text-center">Delivery Address</th>
+									<th class="text-center">Total Amount</th>
+									<th class="text-center">Status</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody class="card-body table-group-divider ">
+								<tr th:each="order , i: ${orders}">
+									<td scope="row" th:text="${i.index + 1}"></td>
+									<td class="text-nowrap" th:text="${order.createDate}"></td>
+									<td class="text-nowrap fw-semibold"
+										th:text="${order.orderNumber}"></td>
+									<td class="text-nowrap fw-semibold"
+										th:text="${order.restaurantName}"></td>
+									<td class="text-nowrap" th:text="${order.orderTypeName}"></td>
+									<td class="text-nowrap"
+										th:text="${order.deliveryAddress} != '' ? ${order.deliveryAddress} : '-'">-</td>
+									<td class="text-nowrap text-end"
+										th:text="${order.totalPrice}+' MMK'"></td>
+									<td class="text-nowrap text-warning fw-bolder"
+										th:id="'status-'+${order.id}"><span
+										th:if="${order.status}=='confirm'" th:text="${order.status}"
+										class="text-success  fw-bolder"></span> <span
+										th:if="${order.status}=='pending'" th:text="${order.status}"
+										class="text-warning font-monospace fw-bolder"></span> <span
+										th:if="${order.status}=='reject'" th:text="${order.status}"
+										class="text-danger  fw-bolder"></span></td>
+									<td><a class=" text-nowrap text-decoration-none"
+										th:href="@{/user/orderDetail/{orderNumber}(orderNumber=${order.orderNumber})}">
+											<i class="fa-solid fa-list-ul fa-sm me-2"></i><span>Details</span>
+									</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- ============================================-->
+		<!--------- table --------->
+		<!------- table----- -->
+		<!-- -------table------->
+
+
+
+
+
+
+
+
+	</div>
+
+</body>
+</html>
+

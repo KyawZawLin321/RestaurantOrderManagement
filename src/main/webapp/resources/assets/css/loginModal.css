@@ -1,0 +1,150 @@
+.login-content {
+	width: fit-content;
+	background-color: transparent;
+	border: none;
+}
+
+.wrapper {
+	position: relative;
+	z-index: 99;
+	backdrop-filter: blur(25px);
+	background: transparent;
+	width: 380px;
+	height: 500px;
+	border-radius: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #1a1110;
+	border: 1px solid #918e8e;
+	overflow: hidden;
+	transition: height .2s ease;
+	transform: scale(0);
+}
+
+.modal-backdrop.show {
+	margin-top: auto;
+	z-index: 2;
+}
+
+.modal-dialog {
+	margin-top: 100px;
+}
+
+.modalBtn {
+	width: 150px;
+	display: inline;
+}
+
+.btnGp {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.registerMsg {
+	border-radius: 5px;
+	margin-top: 100px;
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.form-active {
+	height: 840px;
+}
+
+.active-popup {
+	transform: scale(1);
+}
+
+.wrapper .register-box {
+	position: absolute;
+	transition: none;
+	transform: translateX(400px);
+}
+
+.wrapper.form-active .register-box {
+	transition: transform .18s ease;
+	transform: translateX(0);
+}
+
+.wrapper .login-box {
+	transition: transform .18s ease;
+	transform: translateX(0);
+}
+
+.wrapper.form-active .login-box {
+	transition: none;
+	transform: translateX(-400px);
+}
+
+.wrapper .container {
+	width: 100%;
+	padding: 10px 40px;
+}
+
+.wrapper .icon-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 45px;
+	height: 45px;
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	font-size: 2em;
+	color: #fff;
+	border-bottom-left-radius: 20px;
+	cursor: pointer;
+	z-index: 99;
+	background-color: #FFB30E !important;
+}
+
+.wrapper .icon-close:hover {
+	background-color: red !important;
+}
+
+.input-box1 {
+	position: relative;
+	width: 100%;
+	margin: 30px 0;
+	border-bottom: 2px solid whitesmoke;
+}
+
+.input-box1 input {
+	background: transparent;
+	width: 100%;
+	height: 100%;
+	border: none;
+	outline: none;
+	font-size: 1em;
+	font-weight: 600;
+	color: #1a1110;
+}
+
+button#logout {
+	margin: 0px;
+	padding: 6px 6px;
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.form-check-input:checked {
+	background-color: #1a1110;
+	border-color: #1a1110;
+}
+
+.wrapper .btn {
+	width: 100%;
+	margin-bottom: 20px;
+	background-color: #FFB30E !important;
+}
+
+.login-register p a {
+	text-decoration: none;
+	color: #1a1110;
+	font-weight: 500;
+}
+
+.login-register p a:hover {
+	text-decoration: underline;
+}

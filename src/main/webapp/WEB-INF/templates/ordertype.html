@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/restaurantOwner.html}">
+<head>
+<title>Service</title>
+
+</head>
+
+<body>
+
+	<!-- ------------------>
+	<!-- Main Top Nav Bar -->
+	<!-- ------------------->
+
+
+
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+	<div layout:fragment="content">
+		<div class="container-fluid mt-1 p-2 " style="min-height: 500px;">
+			<div class=" row flex-column flex-lg-row mb-1">
+				<div class="text-center col">
+					<h3 class="text-warning fw-bolder d-inline">
+						<i class="fa-solid fa-truck-fast me-2"></i>Order Type
+					</h3>
+				</div>
+
+			</div>
+			<div style="height: 50px;">
+
+				<div class="col position-relative">
+					<button class="btn btn-warning ordertype position-absolute end-0"
+						type="button" onclick="openAddOrderTypeModal()" id="addOrderType">
+						<i class="fa-solid fa-plate-wheat"></i>Add Order Type
+					</button>
+
+					<h5 th:text="${addError}" class="text-danger fw-bolder"
+						id="addError"></h5>
+					<h5 th:text="${message}" class="text-info fw-bolder"></h5>
+
+				</div>
+			</div>
+
+
+
+
+			<table id="userOrderRecord"
+				class="table  align-middle table-responsive scrollable table-striped table-bordered text-center align-middle ">
+				<thead class="text-center table-dark align-middle ">
+					<tr>
+						<th>No</th>
+						<th>Name</th>
+						<th>Create Date</th>
+						<th>Update Date</th>
+						<th>Action</th>
+
+
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="ordertype : ${orderTypes}">
+						<td th:text="${ordertype.id}"></td>
+						<td th:text="${ordertype.orderTypeName}"></td>
+						<td th:text="${ordertype.createDate != null ? ordertype.createDate:'-'}"></td>
+						<td th:text="${ordertype.updateDate != null ? ordertype.updateDate:'-'}"></td>
+						<td>
+							<button type="button"
+								th:attr="data-ordertypeid=${ordertype.id}, data-ordertypename=${ordertype.orderTypeName}"
+								onclick="openDeleteOrdertypeModal(this)">
+								<i class="fa-solid fa-trash-can"></i>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+
+
+			</table>
+
+			<!--Delete Order Modal -->
+
+			<div class="modal fade" id="deleteOrdertypeModal"
+				data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+				aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 align="center" class="modal-title fs-5"
+								id="staticBackdropLabel">Delete OrderType</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<h3>
+								<span class="d-block">Are you sure want to delete</span> " <big
+									class="text-warning " id="deleteName"></big>" !
+
+							</h3>
+						</div>
+						<hr>
+						<form th:action="@{/owner/deleteOrdertype}" method="post"
+							th:object="${orderTypeForRestaurant}">
+							<div class="modal-footer row">
+								<input type="hidden" th:field="*{id}" id="deleteId" /> <input
+									type="button" class="modalBtn btn btn-outline-primary col me-2"
+									data-bs-dismiss="modal" value="No"> <input
+									type="submit" class="modalBtn btn btn-danger col" value="Yes">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- Delete Order Modal -->
+
+			<!-- Add Model -->
+			<div class="modal fade" id="addOrderTypeModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="exampleModalLabel">Order
+								Type</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<h5 th:text="${addError}" class="text-danger fw-bolder ms-2"></h5>
+						<form th:action="@{/owner/addOrderType}" method="post" class="was-validated"
+							th:object="${orderTypeForRestaurant}">
+
+							<div class="modal-body">
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label">Add
+										OrderType</label>
+									<div class="mb-3">
+										<label for="ordertype_id" class="form-label text-success">Order
+											Type </label> <select th:field="*{select}" class="form-select" required>
+											<option value="">Select</option>
+											<option th:each="orderType : ${orderTypeList}"
+												th:value="${orderType.id}"
+												th:text="${orderType.orderTypeName}"></option>
+										</select>
+									</div>
+
+
+									<p th:if="${errorOrderType}" class="error-message"
+										th:text="${errorOrderType}" style="color: red;"></p>
+								</div>
+							</div>
+							<div class="modal-footer row">
+								<button type="button" class="btn btn-secondary col me-2"
+									data-bs-dismiss="modal">Cancel</button>
+
+								<!-- If not exists, allow adding -->
+								<button type="submit" id="submitButton"
+									class="btn btn-primary col">Add</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+
+
+
+
+
+
+</body>
+
+</html>

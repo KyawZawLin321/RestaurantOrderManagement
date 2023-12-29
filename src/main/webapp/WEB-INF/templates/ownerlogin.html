@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>Login Form</title>
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32"
+	th:href="@{/resourcesassets/img/favicons/favicon-32x32.png}">
+<link rel="icon" type="image/png" sizes="16x16"
+	th:href="@{/resources/assets/img/favicons/favicon-16x16.png}">
+
+<!-- Bootstrap -->
+<link rel="stylesheet"
+	th:href="@{/resources/assets/css/bootstrap.min.css}">
+<script th:src="@{/resources/assets/js/bootstrap.bundle.min.js}"
+	crossorigin="anonymous"></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" th:href="@{/resources/assets/css/all.min.css}">
+<link rel="stylesheet"
+	th:href="@{/resources/assets/css/fontawesome.min.css}">
+
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&amp;display=swap"
+	rel="stylesheet">
+
+<!-- jQuery -->
+<script th:src="@{/resources/assets/js/jquery.js}"
+	crossorigin="anonymous"></script>
+
+
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/resources/assets/css/ownerlogin.css}">
+<link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+	<div class="container">
+		<div class="row px-3">
+			<div class="col-lg-10 col-xl-9 card flex-row mx-auto px-0">
+				<div class="img-left d-none d-md-flex"></div>
+
+				<div class="card-body">
+					<h4 class="title text-center mt-4">Owner Login</h4>
+					<form th:action="@{/owner/login}" th:object="${user}" method="post"
+						class="form-box px-3">
+						<div class="form-input">
+							<span><i class="fa fa-envelope-o"></i></span> <input type="email"
+								th:field="*{email}" placeholder="Email Address" tabindex="10"
+								required>
+						</div>
+						<div class="form-input">
+							<span><i class="fa fa-key"></i></span> <input type="password"
+								th:field="*{password}" placeholder="Password" required>
+						</div>
+
+						<div class="mb-3">
+							<label th:if="!${loginerror}" style="color: red;">Email
+								and Password are Incorrect!</label>
+						</div>
+
+						<div class="mb-3">
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input" id="cb1"
+									th:field="*{rememberMe}"> <label
+									class="custom-control-label" for="cb1">Remember me</label>
+							</div>
+						</div>
+
+						<div class="mb-3">
+							<button type="submit" class="btn btn-block text-uppercase">
+								Login</button>
+						</div>
+
+						<hr class="my-4">
+
+
+						<div class="mb-3">
+							<label th:text="${logoutmessage}"
+								style="color: blue; font-size: 40px;"></label>
+						</div>
+
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

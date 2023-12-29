@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/restaurantOwner.html}">
+<head>
+<title>Order</title>
+
+</head>
+
+<body>
+
+
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+	<div layout:fragment="content">
+
+		<div class="container-fluid mt-1 p-2 " style="min-height: 500px;">
+			<div class=" row flex-column flex-lg-row mb-1">
+				<div class=" text-center col">
+					<h3 class="fw-bold text-warning"><i class="fa-solid fa-check me-2"></i>Confirm Orders</h3>
+				</div>
+
+			</div>
+
+			<div th:if="${message}"
+				class="alert alert-success p-2 mb-1 text-info fw-bolder">
+				<p class="my-auto ms-3" th:text="${message}"></p>
+			</div>
+
+
+			<table id="userOrderRecord"
+				class="table  align-middle table-responsive scrollable table-striped table-bordered text-center align-middle ">
+				<thead class="text-center table-dark align-middle ">
+					<tr>
+						<th class="text-center">No.</th>
+						<th class="text-center">Date</th>
+						<th class="text-center">Customer Email</th>
+						<th class="text-center">Order Number</th>
+						<th class="text-center">Total Amount</th>
+						<th class="text-center">Status</th>
+						<th class="text-center">Items</th>
+						<th class="text-center">Order Info</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="order , i: ${orders}">
+						<td scope="row" th:text="${i.index + 1}"></td>
+						<td class="text-nowrap" th:text="${order.createDate}"></td>
+						<td class="text-nowrap" th:text="${order.customerEmail}"></td>
+						<td class="text-nowrap" th:text="${order.orderNumber}"></td>
+						<td class="text-nowrap text-end"
+							th:text="${order.totalPrice}+' MMK'"></td>
+						<td class="text-nowrap text-warning font-monospace fw-bolder"
+							th:text="${order.status}" th:id="'status-'+${order.id}"></td>
+						<td><a class="text-dark text-nowrap text-decoration-none"
+							th:href="@{/owner/orderDetail/{orderNumber}(orderNumber=${order.orderNumber})}">
+								<i class="fa-solid fa-list-ul fa-sm me-2"></i><span>Items</span>
+						</a></td>
+						<td><a class="text-info text-nowrap text-decoration-none"
+							th:href="@{/owner/orderInfo/{orderNumber}(orderNumber=${order.orderNumber})}">
+								<i class="fa-solid fa-circle-info me-2"></i><span>Info</span>
+						</a></td>
+					</tr>
+
+				</tbody>
+
+			</table>
+
+
+
+		</div>
+	</div>
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+</body>
+
+</html>

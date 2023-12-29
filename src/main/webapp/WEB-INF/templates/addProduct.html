@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/restaurantOwner.html}">
+<head>
+<title>Add Products</title>
+
+
+</head>
+
+<body>
+
+	<!-- ------------------>
+	<!-- Main Top Nav Bar -->
+	<!-- ------------------->
+
+
+
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+	<div layout:fragment="content">
+		<div class="container-fluid mt-1 p-2 " style="min-height: 500px;">
+			<div class=" row flex-column flex-lg-row mb-1">
+				<div class="text-center col">
+					<h3 class="text-warning fw-bolder d-inline">
+						<i class="fa-solid fa-book-medical me-2"></i>Add Menu
+					</h3>
+				</div>
+
+			</div>
+			<h4 th:text="${error}" class="text-danger fw-bolder"></h4>
+			<h4 th:text="${errorFoodSet}" class="text-danger fw-bolder"
+				id="errorFoodSet"></h4>
+			<div class="row flex-column flex-lg-row  mx-2 my-4">
+
+				<nav>
+					<div class="nav nav-tabs row" id="nav-tab" role="tablist">
+
+						<button class="nav-link active mb-3 col-6 col-md-4 "
+							data-bs-toggle="tab" data-bs-target="#nav-food" type="button"
+							role="tab" aria-controls="nav-home" aria-selected="true">
+							<i class="fa-solid fa-burger me-2"></i>Add Food
+						</button>
+						<button class="nav-link mb-3 col-6 col-md-4" id="addFoodSet"
+							data-bs-toggle="tab" data-bs-target="#nav-foodset" type="button"
+							role="tab" aria-controls="nav-profile" aria-selected="false">
+							<i class="fa-solid fa-inbox me-2"></i>Add Foodset
+						</button>
+					</div>
+				</nav>
+
+				<div class="tab-content mt-3" id="nav-tabContent">
+
+					<div class="tab-pane fade show active" id="nav-food"
+						role="tabpanel" aria-labelledby="nav-home-tab">
+						<form class="row g-3 was-validated" th:action="@{/owner/addFood}"
+							method="post" enctype="multipart/form-data" th:object="${food}">
+							<h3>Add Foods</h3>
+
+							<div class="col-auto">
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label"><i
+										class="fa-solid fa-bowl-food me-2"></i>Food Name</label> <input
+										type="text" class="form-control" minlength="1" maxlength="40"
+										id="name" placeholder="Enter your food name!"
+										th:field="*{name}" required>
+								</div>
+								<div class="mb-3">
+									<label for="formFile" class="form-label"><i
+										class="fa-solid fa-image me-2"></i>Food Image</label> <input
+										class="form-control" type="file" id="formFile" name="foodImg"
+										th:field="*{image}" accept="image/*" required>
+
+								</div>
+
+								<div class="mb-3">
+
+									<label for="exampleFormControlInput1" class="form-label"><i
+										class="fa-solid fa-message me-2"></i>Food Description
+										(Optional)</label>
+									<textarea class="form-control" id="foodDescription"
+										maxlength="255" placeholder="Write a description here!"
+										required rows="4" cols="50" th:field="*{description}"></textarea>
+								</div>
+
+							</div>
+							<div class="col-auto">
+								<div class="mb-3">
+									<label for="foodCategoryId" class="form-label"><i
+										class="fa-solid fa-list me-2"></i>Food Category</label> <select
+										th:field="*{select}" class="form-select" required>
+
+										<option value="" th:text="Select"></option>
+										<option th:each="category : ${categorys}"
+											th:value="${category.id}" th:text="${category.foodName}">
+										</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label"><i
+										class="fa-solid fa-tag me-2"></i>Prices</label>
+									<div class="input-group ">
+										<input th:field="*{price}" type="number" class="form-control"
+											aria-label="Dollar amount (with dot and two decimal places)"
+											id="price" min="1" step="0.01" max="9999999"
+											placeholder="Enter your food price!" required> <span
+											class="input-group-text">MMk</span>
+									</div>
+
+								</div>
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label">Max
+										Quantity<span style="opacity: 0.7">(max quantity for
+											order)</span>
+									</label> <input type="number" class="form-control"
+										th:field="*{maxQuantity}" min="1" step="1" max="100" required>
+								</div>
+
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label">Is
+										Available?</label>
+									<div>
+										<label> <input type="radio" id="availableYes"
+											th:field="*{avaliable}" th:value="Yes" /> Yes
+										</label> <label> <input type="radio" id="availableNo"
+											th:field="*{avaliable}" th:value="No" /> No
+										</label>
+									</div>
+								</div>
+
+
+							</div>
+
+
+							<div class="row mt-3">
+								<button class="btn btn-danger col-4 me-2" type="reset">Reset</button>
+								<button class="btn btn-primary col-4" type="submit">Save</button>
+							</div>
+						</form>
+
+					</div>
+
+					<div class="tab-pane fade" id="nav-foodset" role="tabpanel"
+						aria-labelledby="nav-profile-tab">
+						<h3>Add Foods Set</h3>
+						<form class="row g-3 was-validated"
+							th:action="@{/owner/addFoodSet}" method="post"
+							enctype="multipart/form-data" th:object="${foodSet}">
+							<div class="col-auto">
+
+
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label"><i
+										class="fa-solid fa-boxes-stacked me-2"></i>Food Set Name</label> <input
+										th:field="*{name}" type="text" class="form-control" required
+										minlength="1" maxlength="40" id="name"
+										placeholder="Enter your food name!">
+								</div>
+								<div class="mb-3">
+									<div class="col-auto">
+										<label for="formFile" class="form-label"><i
+											class="fa-solid fa-image me-2"></i>Upload Images photo</label> <input
+											th:field="*{image}" class="form-control" type="file"
+											id="formFile" name="foodSetImg" accept="image/*" required>
+									</div>
+								</div>
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label"><i
+										class="fa-solid fa-message me-2"></i>Food Description
+										(Optional)</label>
+									<textarea th:field="*{description}" class="form-control"
+										id="foodDescription" maxlength="255" required rows="4"
+										cols="50" placeholder="Write a description here!"></textarea>
+								</div>
+
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label">Is
+										Available?</label>
+									<div>
+										<label> <input type="radio" id="availableYes"
+											th:field="*{avaliable}" th:value="Yes" /> Yes
+										</label> <label> <input type="radio" id="availableNo"
+											th:field="*{avaliable}" th:value="No" /> No
+										</label>
+									</div>
+
+								</div>
+
+							</div>
+
+
+							<div class="col-auto">
+
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label"><i
+										class="fa-solid fa-list me-2"></i>Food List</label> <select
+										class="form-select" multiple th:field="*{select}" required>
+										<option th:each="food : ${foods}" th:value="${food.id}"
+											th:text="${food.name}"></option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label"><i
+										class="fa-solid fa-tag me-2"></i>Prices</label>
+									<div class="input-group col-auto">
+										<input th:field="*{price}" type="number" class="form-control"
+											aria-label="Dollar amount (with dot and two decimal places)"
+											id="price" required min="1" step="1" max="9999999"
+											placeholder="Enter your food price!"> <span
+											class="input-group-text">MMk</span>
+									</div>
+								</div>
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label">Max
+										Quantity<span style="opacity: 0.7">(max quantity for
+											order)</span>
+									</label> <input type="number" class="form-control"
+										th:field="*{maxQuantity}" required min="1" step="1" max="100">
+								</div>
+
+							</div>
+
+
+							<div class="row mt-3">
+								<button class="btn btn-danger col-4 me-2" type="reset">Reset</button>
+								<button class="btn btn-primary col-4 " type="submit">Save</button>
+							</div>
+						</form>
+					</div>
+
+				</div>
+
+
+			</div>
+		</div>
+
+
+	</div>
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+
+
+	<!-- ------------>
+	<!-- main  -->
+	<!-- ------------>
+
+
+	<!-- ------------>
+	<!-- footer -->
+	<!-- ------------>
+
+
+
+
+</body>
+
+</html>

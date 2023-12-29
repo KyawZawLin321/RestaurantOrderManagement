@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/anonymous.html}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+
+
+
+		<!-- =================================================-->
+		<!--=================  Restaurants ===================-->
+		<!-- =================================================-->
+
+
+		<section id="testimonial">
+			<div class="container">
+				<div class="row h-100">
+					<div class="col-lg-7 mx-auto text-center mb-3">
+						<h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Restaurants</h5>
+					</div>
+				</div>
+				<div class=" row flex-column flex-lg-row mb-6">
+					<div class=" col">
+						<h3 class="text-primary">Enjoy With Foodies</h3>
+					</div>
+					
+				</div>
+				<div class="row gx-2">
+					<div class="col-6 col-sm-6 col-md-4 col-lg-3 h-100 mb-5"
+						th:each="restaurant , i : ${restaurants}">
+						<div class="card card-span h-100 text-white rounded-3">
+							<form method="get" th:action="@{/user/menu}"
+								th:object="${restaurant}">
+								<input type="hidden" name="id" th:value="${restaurant.id}" />
+								<button type="submit" class="btn btn-outline-info"
+									style="padding: 0; border-radius: 20px; width: -webkit-fill-available;">
+									<img class="img-fluid rounded-3 h-100"
+										th:src="@{${restaurant.image}}" alt="..."
+										style="width: 272px; height: 200px !important;" />
+
+									<div class="card-body ps-0">
+										<div class="d-flex align-items-center mb-3">
+											<img class="img-fluid rounded" th:src="@{${restaurant.logo}}"
+												alt="" style="height: 64px; width: 64px;" /> <span
+												class="mb-0 ms-2 fw-bold text-1000 "
+												style="overflow: auto; overflow-wrap: break-word;font-size:18px;"
+												th:text="${restaurant.name}"></span>
+
+										</div>
+										<span class="badge bg-soft-success p-2"><span
+											class="fw-bold fs-1 text-danger">Opens Now</span></span>
+									</div>
+								</button>
+
+							</form>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+		<!-- =================================================-->
+		<!--=================  Restaurants ===================-->
+		<!-- =================================================-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</div>
+
+</body>
+</html>
+
+

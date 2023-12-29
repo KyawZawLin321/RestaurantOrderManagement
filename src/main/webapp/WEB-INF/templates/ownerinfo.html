@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/admin.html}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Owner Info</title>
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<div class="container-fluid mt-1 p-2 " style="min-height: 490px;">
+			<div class=" row flex-column flex-lg-row mb-1">
+				<div class="text-center col">
+					<h3 class="text-warning fw-bolder d-inline">
+						<i class="fa-solid fa-user-tie me-2 fs-4"></i>Owner Info
+					</h3>
+				</div>
+
+			</div>
+
+			<h2 class="h6 text-white-50 ">
+				<i class="fa-solid fa-database me-2"></i>DATA
+			</h2>
+			<h4 class="fw-bolder text-info" th:text="${message}" id="message"></h4>
+			<h4 class="fw-bolder text-danger" th:text="${error}" id="error"></h4>
+			<input type="hidden" th:value="${ownerId}" id="ownerId">
+			<div
+				class="col-12 card table-responsive shadow pt-2 mb-2 bg-light py-2 bg-light">
+				<table id="userOrderRecord"
+					class="table  align-middle table-responsive scrollable table-striped table-bordered text-center align-middle ">
+					<thead class="text-center table-dark align-middle ">
+						<tr>
+							<th class="text-center">No</th>
+							<th class="text-center">Name</th>
+							<th class="text-center">Email</th>
+							<th class="text-center">Phone Number</th>
+							<th class="text-center">Address</th>
+
+							<th class="text-center">Create Date</th>
+							<th class="text-center">Update Date</th>
+
+							<th class="text-center">Action</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<!-- <th scope="row" th:text="${i.index + 1}"></th>  -->
+							<td>1</td>
+							<td th:text="${owner.ownername}"></td>
+							<td th:text="${owner.owneremail}"></td>
+							<td th:text="${owner.ownerPhone}"></td>
+							<td th:text="${owner.owneraddress}"></td>
+
+							<!-- <td><img th:src="@{/images/} + ${restaurant.restaurantImg}" width="50" height="60"></td> -->
+							<td
+								th:text="${owner.create_date != null ? owner.create_date : '-'}"></td>
+							<td
+								th:text="${owner.update_date != null ? owner.update_date : '-'}"></td>
+							<td>
+								<button type="button" style="margin-right: 15px;"
+									th:id="'update-'+${owner.id}"
+									th:attr="data-restaurantid=${owner.id}, data-restaurantname=${owner.ownername},data-restaurantemail=${owner.owneremail},data-restaurantphone_number=${owner.ownerPhone},
+												data-restaurantaddress=${owner.owneraddress}"
+									onclick="openUpdateOwnerModal(this)">
+									<i class="fa-solid fa-pen-to-square"></i>
+								</button>
+
+							</td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+
+
+
+
+			<!-- Update Restaurant Modal -->
+
+			<div class="modal fade" id="updateOwnerModal">
+
+				<div class="modal-dialog">
+					<div class="modal-content" style="padding: 10px 20px;">
+						<div class="modal-header">
+							<h1 align="center" class="modal-title fs-5 fw-3"
+								id="staticBackdropLabel">Update Owner</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<p class="text-info" th:text="${message}"></p>
+						<p class="text-danger" th:text="${error}"></p>
+						<form class="was-validated"
+							th:action="@{/admin/updateOwner/{restaurantId}(restaurantId=${restaurantId})}"
+							method="post" th:object="${restaurant}">
+							<div class="mb-3">
+								<label for="name" class="form-label text-success">Name</label> <input
+									type="text" class="form-control" required minlength="3"
+									maxlength="40" id="updateName" placeholder="Enter Owner name!"
+									th:field="*{ownername}">
+								<div class="invalid-feedback">Please Enter Owner Name.</div>
+							</div>
+							<div class="mb-3">
+								<label for="email" class="form-label text-success">Email</label>
+								<input type="email" class="form-control" required minlength="5"
+									maxlength="40" id="updateEmail"
+									placeholder="Enter Owner Email!" th:field="*{owneremail}">
+								<div class="invalid-feedback">Please Enter Owner Email.</div>
+							</div>
+
+							<div class="mb-3">
+								<label for="phone_number" class="form-label text-success">Phone
+									Number</label> <input type="text" class="form-control"
+									id="updatePhoneNumber" placeholder="Enter Owner Phone number!"
+									oninput="validatePhoneNumber(this)" required
+									th:field="*{ownerPhone}">
+								<div class="invalid-feedback">Please Enter Owner Phone
+									Number.</div>
+							</div>
+
+							<div class="mb-3">
+								<label for="address" class="form-label text-success">Address</label>
+								<textarea class="form-control" rows="4" cols="50"
+									maxlength="255" required minlength="3" id="updateAddress"
+									placeholder="Enter Owner Address!" th:field="*{owneraddress}"></textarea>
+								<div class="invalid-feedback">Please Enter Owner Address.</div>
+							</div>
+
+							<div class="modal-footer">
+								<input type="hidden" th:field="*{id}" id="updateId" /> <input
+									type="button" class="modalBtn btn btn-outline-danger col"
+									value="Cancel" data-bs-dismiss="modal"> <input
+									type="submit" class="modalBtn btn btn-success col"
+									value="Update">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+
+
+			<script>
+				$(document).ready(
+						function() {
+							console.log('dadttaf')
+							if ($('#message').text() !== ''
+									|| $('#error').text() !== '') {
+								$('#update-' + $('#ownerId').val()).click();
+							}
+						});
+				function openDeleteOwnerModal(button) {
+					$('#deleteId')
+							.val(button.getAttribute("data-restaurantid"));
+					$('#deleteName').text(
+							button.getAttribute("data-restaurantname"));
+					$('#deleteOwnerModal').modal('show');
+				}
+
+				function openUpdateOwnerModal(button) {
+					$('#updateId')
+							.val(button.getAttribute("data-restaurantid"));
+					$('#updateName').val(
+							button.getAttribute("data-restaurantname"));
+					$('#updateEmail').val(
+							button.getAttribute("data-restaurantemail"));
+					$('#updatePhoneNumber').val(
+							button.getAttribute("data-restaurantphone_number"));
+
+					$('#updateAddress').val(
+							button.getAttribute("data-restaurantaddress"));
+
+					$('#updateOwnerModal').modal('show');
+
+				}
+			</script>
+		</div>
+</body>
+</html>

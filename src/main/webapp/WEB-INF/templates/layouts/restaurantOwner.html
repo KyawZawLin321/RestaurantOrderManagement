@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">Owner</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/resourcesassets/img/favicons/favicon-32x32.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/resources/assets/img/favicons/favicon-16x16.png}">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/resources/assets/css/bootstrap.min.css}">
+    <script th:src="@{/resources/assets/js/bootstrap.bundle.min.js}" crossorigin="anonymous"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/resources/assets/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/assets/css/fontawesome.min.css}">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&amp;display=swap" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script th:src="@{/resources/assets/js/jquery.js}" crossorigin="anonymous"></script>
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+
+    <!-- Custom Styles -->
+    <style>
+        /* Add margin to the DataTables search bar */
+        .dataTables_filter {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+	<div class="container-fluid m-0 p-0">
+
+		<div class="row g-0">
+
+			<!-- ------------>
+			<!-- slid Bar -->
+			<!-- ------------>
+			<nav class="col-2 bg-light pe-3 ">
+				<h1 class="h4 py-3 text-center text-primary">
+					<i class="fa-solid fa-shop-lock"></i> <span
+						class="d-none d-lg-inline">FOODIES</span>
+				</h1>
+
+				<div class="list-group text-center text-lg-start ms-1">
+					<span class="d-none d-lg-block disabled list-group-item"> <small>
+							CONTROLS </small>
+					</span> <a th:href="@{/owner/home}" id="dashboard"
+						th:classappend="${#httpServletRequest.servletPath == '/owner/home' ? 'active' : ''}"
+						class="list-group-item list-group-item-action px-0 ps-2"> <i
+						class="fas fa-home"></i> <span class="d-none d-lg-inline">Dashboard</span>
+					</a> <a class="list-group-item list-group-item-action px-0 ps-2"
+						data-bs-toggle="collapse" href="#order" role="button"
+						aria-expanded="false" aria-controls="collapseExample"> <i
+						class="fa-brands fa-shopify me-1"></i> <span
+						class="d-none d-lg-inline me-1">Order</span> <i
+						class="fa-solid fa-angle-down"></i> <span
+						class="badge bg-danger float-end rounded-pill d-none d-lg-inline p-0"
+						id="badge"></span>
+					</a>
+					<div class="collapse" id="order">
+						<ul class="list-group">
+							<a th:href="@{/owner/allOrderPending}" id="pending"
+								th:classappend="${#httpServletRequest.servletPath == '/owner/allOrderPending' ? 'active' : ''}"
+								class="list-group-item list-group-item-action px-0 ps-2"> <i
+								class="fa-solid fa-right-to-bracket me-1"></i> <span
+								class="d-none d-lg-inline">Pending Orders</span> <span
+								class="badge bg-danger float-end rounded-pill d-none d-lg-inline"
+								id="orderBadge"></span>
+							</a>
+							<a th:href="@{/owner/allOrderConfirm}" id="confirm"
+								th:classappend="${#httpServletRequest.servletPath == '/owner/allOrderConfirm' ? 'active' : ''}"
+								class="list-group-item list-group-item-action px-0 ps-2"> <i
+								class="fa-solid fa-handshake-simple me-1"></i><span
+								class="d-none d-lg-inline">Comfirm Orders</span>
+							</a>
+							<a th:href="@{/owner/allOrderReject}" id="reject"
+								th:classappend="${#httpServletRequest.servletPath == '/owner/allOrderReject' ? 'active' : ''}"
+								class="list-group-item list-group-item-action px-0 ps-2"> <i
+								class="fa-solid fa-handshake-simple-slash me-1"></i> <span
+								class="d-none d-lg-inline">Reject Orders</span>
+							</a>
+						</ul>
+
+					</div>
+					<a th:href="@{/owner/customer}" id="customer"
+						th:classappend="${#httpServletRequest.servletPath == '/owner/customer' ? 'active' : ''}"
+						class="list-group-item list-group-item-action px-0 ps-2"> <i
+						class="fa-solid fa-user-tag"></i> <span class="d-none d-lg-inline">Customer</span>
+					</a> <a class="list-group-item list-group-item-action px-0 ps-2"
+						data-bs-toggle="collapse" href="#food" role="button"
+						aria-expanded="false" aria-controls="collapseExample"> <i
+						class="fa-regular fa-newspaper"></i> <span
+						class="d-none d-lg-inline me-1">Menu</span> <i
+						class="fa-solid fa-angle-down"></i>
+					</a>
+					<div class="collapse" id="food">
+						<ul class="list-group">
+							<a th:href="@{/owner/food}" id="food"
+								th:classappend="${#httpServletRequest.servletPath == '/owner/food' ? 'active' : ''}"
+								class="list-group-item list-group-item-action px-0 ps-2"> <i
+								class="fa-solid fa-burger"></i> <span class="d-none d-lg-inline">Foods</span>
+							</a>
+							<a th:href="@{/owner/foodSet}" id="foddSet"
+								th:classappend="${#httpServletRequest.servletPath == '/owner/foodSet' ? 'active' : ''}"
+								class="list-group-item list-group-item-action px-0 ps-2"> <i
+								class="fa-solid fa-boxes-stacked"></i> <span
+								class="d-none d-lg-inline">Food Sets</span>
+							</a>
+							<a th:href="@{/owner/addProduct}" id="addMenu"
+								th:classappend="${#httpServletRequest.servletPath == '/owner/addProduct' ? 'active' : ''}"
+								class="list-group-item list-group-item-action px-0 ps-2"> <i
+								class="fa-solid fa-folder-plus"></i> <span
+								class="d-none d-lg-inline">Add Menu</span>
+							</a>
+						</ul>
+
+					</div>
+					<a th:href="@{/owner/category}" id="category"
+						th:classappend="${#httpServletRequest.servletPath == '/owner/category' ? 'active' : ''}"
+						class="list-group-item list-group-item-action px-0 ps-2"> <i
+						class="fa-solid fa-layer-group"></i> <span
+						class="d-none d-lg-inline">New Categories</span>
+					</a> <a class="list-group-item list-group-item-action px-0 ps-2"
+						data-bs-toggle="collapse" href="#service" role="button"
+						aria-expanded="false" aria-controls="collapseExample"> <i
+						class="fa-solid fa-sliders"></i> <span
+						class="d-none d-lg-inline me-1">Order & Payment</span> <i
+						class="fa-solid fa-angle-down"></i>
+					</a>
+					<div class="collapse" id="service">
+						<ul class="list-group">
+							<a th:href="@{/owner/ordertype}" id="orderType"
+								th:classappend="${#httpServletRequest.servletPath == '/owner/ordertype' ? 'active' : ''}"
+								class="list-group-item list-group-item-action px-0 ps-2"> <i
+								class="fa-solid fa-truck-fast"></i> <span
+								class="d-none d-lg-inline">Order Type</span>
+							</a>
+							<a th:href="@{/owner/paymenttype}" id="paymentType"
+								th:classappend="${#httpServletRequest.servletPath == '/owner/paymenttype' ? 'active' : ''}"
+								class="list-group-item list-group-item-action px-0 ps-2"> <i
+								class="fa-solid fa-money-bill-transfer"></i> <span
+								class="d-none d-lg-inline">PayMent Type</span>
+							</a>
+
+						</ul>
+
+					</div>
+
+				</div>
+
+
+			</nav>
+			<!-- ------------>
+			<!-- slid Bar -->
+			<!-- ------------>
+
+			<!-- ------------>
+			<!-- main  -->
+			<!-- ------------>
+			<main class="col-10">
+
+				<!-- ------------------>
+				<!-- Main Top Nav Bar -->
+				<!-- ------------------->
+				<nav class="navbar navbar-expand-lg navbar-light bg-light">
+					<div class="flex-fill"></div>
+					<div class="navbar nav">
+						<div class="d-flex text-center">
+							<span class="fw-bolder text-secondary fs-5"
+								th:text="${session.username}"></span>
+						</div>
+						<li class="nav-item dropdown"><a href="#"
+							data-bs-display="static" class="nav-link dropdown-toggle"
+							data-bs-toggle="dropdown"> <i class="fas fa-user-circle"></i>
+						</a>
+
+							<ul class="dropdown-menu dropdown-menu-center">
+								<li><a th:href="@{/owner/profile}" class="dropdown-item">
+										Profile</a></li>
+								<li><a th:href="@{/owner/logout}" class="dropdown-item">Logout</a>
+								</li>
+							</ul></li>
+
+						<li class="nav-item dropdown"><a href="#"
+							data-bs-toggle="dropdown" class="nav-link dropdown-toggle"
+							data-bs-display="static"> <i class="fas fa-cog"></i>
+						</a>
+							<ul class="dropdown-menu dropdown-menu-end">
+								<li><a th:href="@{/owner/changePassword}"
+									class="dropdown-item">Change Password</a></li>
+
+							</ul></li>
+					</div>
+				</nav>
+				<!-- ------------------>
+				<!-- Main Top Nav Bar -->
+				<!-- ------------------->
+
+
+
+				<!--- ------------------>
+				<!---- Main Content ---->
+				<!-- ------------------->
+				<div layout:fragment="content"></div>
+
+				<!--- ------------------>
+				<!---- Main Content ---->
+				<!-- ------------------->
+
+			</main>
+			<!-- ------------>
+			<!-- main  -->
+			<!-- ------------>
+
+		</div>
+		<!-- ------------>
+		<!-- footer -->
+		<!-- ------------>
+
+
+		<footer class="text-center py-2 text-muted bg-light"> &copy;
+			Copyright 2023 </footer>
+
+	</div>
+
+
+	<!-- Modal -->
+
+
+
+	<!-- Modal -->
+
+	<!-- ===============================================-->
+	<!--    JavaScripts-->
+	<!-- ===============================================-->
+	<script th:src="@{/resources/assets/js/ordertypeforrestaurant.js}"></script>
+	<script th:src="@{/resources/assets/js/paymenttypeforrestaurant.js}"></script>
+	<script th:src="@{/resources/assets/js/foodset.js}"></script>
+	<script th:src="@{/resources/assets/js/food.js}"></script>
+	<script th:src="@{/resources/assets/js/foodforfoodset.js}"></script>
+	<script th:src="@{/resources/assets/js/category.js}"></script>
+	<script th:src="@{/resources/assets/js/owner.js}"></script>
+
+
+
+</body>
+</html>

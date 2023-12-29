@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/restaurantOwner.html}">
+<head>
+<title>OrderDetail</title>
+
+</head>
+
+<body>
+
+
+
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+	<div layout:fragment="content">
+		<div class="container-fluid mt-1 p-2 " style="min-height: 500px;">
+			<div class=" row flex-column flex-lg-row mb-1">
+				<div class="text-center col">
+					<h3 class="fw-bold text-warning">Order Items</h3>
+				</div>
+
+			</div>
+
+
+
+
+			<table id="userOrderRecord"
+				class="table  align-middle table-responsive scrollable table-striped table-bordered text-center align-middle ">
+				<thead class="text-center table-dark align-middle ">
+					<tr>
+						<th class="text-center">No.</th>
+						<th class="text-center">Name</th>
+						<th class="text-center">Image</th>
+						<th class="text-center">Quantity</th>
+						<th class="text-center">Unit Price</th>
+						<th class="text-end">Total Amount</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="orderItem , i: ${orderItems}">
+						<td scope="row" th:text="${i.index + 1}"></td>
+						<td class="text-nowrap" th:text="${orderItem.name}"></td>
+						<td><img th:src="@{${orderItem.image}}" width="50"
+							height="60"></td>
+						<td class="text-nowrap" th:text="${orderItem.quantity}+'x'"></td>
+						<td class="text-nowrap" th:text="${orderItem.price}+' MMK'"></td>
+						<td class="text-nowrap text-end fw-bolder"
+							th:text="(${orderItem.price}*${orderItem.quantity})+' MMK'"></td>
+						<td></td>
+					</tr>
+				</tbody>
+
+			</table>
+
+
+		</div>
+
+	</div>
+
+
+
+
+</body>
+</html>
+
+
+
+

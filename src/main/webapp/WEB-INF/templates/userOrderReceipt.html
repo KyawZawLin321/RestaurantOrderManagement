@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/anonymous.html}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Receipt</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+		<!--------- -- --------->
+		<!------- Order Receipt----- -->
+		<!-- ------------------>
+		<section class="py-4 overflow-hidden" style="min-height: 100vh;">
+			<div class="container">
+
+				<div class="col-lg-7 mx-auto text-center mt-5 mb-3">
+					<h5 class="fw-bold fs-3 fs-lg-5 lh-sm">Order Receipt</h5>
+				</div>
+				<div class="col text-end fw-bold mb-2">
+					<button class="btn btn-sm rounded btn-warning"
+						onclick="printReceipt()">Print</button>
+				</div>
+				<div class="card" id="print">
+					<div class="card-header">
+						<div class="row ms-2">
+							<div class="row">
+								<div class="col text-center">
+									<img class="img-fluid img-thumbnail rounded"
+										th:src="@{${orderReceipt.qrcode}}">
+								</div>
+							</div>
+							<div class="col ">Order Receipt</div>
+
+						</div>
+						<div class="row ms-2">
+							<div class="col-4 col-md-3">Order Number</div>
+							<div class="col fw-bold " th:text="${orderReceipt.orderNumber}"></div>
+						</div>
+						<div class="row ms-2">
+							<div class="col-4 col-md-3">Date</div>
+							<div class="col " th:text="${orderReceipt.createDate}"></div>
+						</div>
+						<div class="row ms-2">
+							<div class="col-4 col-md-3">Order Status</div>
+							<div class="col " th:text="${orderReceipt.status}"></div>
+						</div>
+						<div class="row ms-2">
+							<div class="col-4 col-md-3">Has Taken</div>
+							<div class="col fw-bold"
+								th:text="${orderReceipt.hasTaken}?'Yes':'No'"></div>
+						</div>
+						<div class="row ms-2">
+							<div class="col-4 col-md-3">Restaurant</div>
+							<div class="col " th:text="${orderReceipt.restaurantName}"></div>
+						</div>
+						<div class="row ms-2">
+							<div class="col-4 col-md-3">Address</div>
+							<div class="col" th:text="${orderReceipt.restaurantAddress}"></div>
+						</div>
+						<div class="row ms-2">
+							<div class="col-4 col-md-3">Ph Number</div>
+							<div class="col" th:text="${orderReceipt.restaurantPhoneNumber}"></div>
+						</div>
+						<div class="row ms-2">
+							<div class="col-4 col-md-3">Email</div>
+							<div class="col " th:text="${orderReceipt.restaurantEmail}"></div>
+						</div>
+						<div class="row">
+							<div class="col d-inline ms-2">Thank For Shopping With us!
+							</div>
+
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="row fw-bolder">
+							<div class="col">Item</div>
+							<div class="col">Qty</div>
+							<div class="col">Unit Price</div>
+						</div>
+						<div class="row " th:each="item : ${orderItems}">
+							<div class="col" th:text="${item.name}"></div>
+							<div class="col">
+								<sapn th:text="${item.quantity}"></sapn>
+								x
+							</div>
+							<div class="col">
+								MMK
+								<sapn th:text="${item.price}"></sapn>
+							</div>
+						</div>
+						<hr>
+						<div class="row">
+							<div class="col"></div>
+							<div class="col">Delivery Charge</div>
+							<div class="col">
+								MMK
+								<sapn th:text="${orderReceipt.deliveryCharge}"></sapn>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col"></div>
+							<div class="col">Tax Charge</div>
+							<div class="col">
+								MMK
+								<sapn th:text="${orderReceipt.taxCharge}"></sapn>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer pb-5">
+						<div class="row">
+							<div class="col"></div>
+							<div class="col">Total Amount</div>
+							<div class="col">
+								MMK
+								<sapn th:text="${orderReceipt.totalAmount}"></sapn>
+							</div>
+						</div>
+						<hr class="">
+
+					</div>
+				</div>
+
+			</div>
+		</section>
+		<!--------- -- --------->
+		<!------- Order Receipt----- -->
+		<!-- ------------------>
+
+	</div>
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+
+
+
+
+
+</body>
+
+</html>

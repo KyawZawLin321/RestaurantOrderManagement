@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/restaurantOwner.html}">
+<head>
+<title>All Food</title>
+<meta charset="UTF-8">
+<meta content="width=device-width,initial-scale=1.0">
+
+<style>
+/* Add margin to the DataTables search bar */
+.dataTables_filter {
+	margin-bottom: 10px;
+}
+</style>
+
+</head>
+
+<body>
+
+
+	<!-- ------------------>
+	<!-- Main Top Nav Bar -->
+	<!-- ------------------->
+
+
+
+	<!--- ------------------>
+	<!---- Main Content ---->
+	<!-- ------------------->
+	<div layout:fragment="content">
+
+		<div class="container-fluid mt-1 p-2 " style="min-height: 500px;">
+			<div class=" row flex-column flex-lg-row mb-1">
+				<div class="text-center col">
+					<h3 class="text-warning fw-bolder d-inline">
+						<i class="fa-solid fa-burger me-2"></i>Food
+					</h3>
+				</div>
+
+			</div>
+
+			<h4 class="text-info" th:text="${addMessage}"></h4>
+			<h4 class="text-info" th:text="${message}"></h4>
+			<h4 class=" text-info" th:text="${messageImage}"></h4>
+			<h4 class=" text-danger" th:text="${error}"></h4>
+			<h4 class=" text-danger" th:text="${errorDelete}" id="errorDelete"></h4>
+			<h4 class=" text-danger" th:text="${errorImage}"></h4>
+			<h4 class=" text-info" th:text="${msg}"></h4>
+			<input type="hidden" th:value="${foodId}" id="foodId">
+
+
+			<div class="table-responsive">
+				<table id="userOrderRecord"
+					class="table  align-middle table-responsive scrollable table-striped table-bordered text-center align-middle ">
+					<thead class="text-center table-dark align-middle ">
+						<tr>
+							<th class="text-center">No</th>
+							<th class="text-center">Name</th>
+							<th class="text-center">Image</th>
+							<th class="text-center">Price</th>
+							<th class="text-center">Description</th>
+							<th class="text-center">Max Quantity</th>
+							<th class="text-center">Avaliable</th>
+							<th class="text-center">Action</th>
+
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr th:each="food, i : ${foods}">
+							<td scope="row" th:text="${i.index + 1}"></td>
+							<td th:text="${food.name}"></td>
+							<td>
+								<div class="position-relative d-inline-block">
+									<img th:src="@{${food.image}}" width="65" height="70"
+										class="rounded shadow"> <a th:id="'image-'+${food.id}"
+										class="position-absolute bottom-0 start-50 badge rounded-pill bg-danger"
+										href="#" onclick="openUpdateFoodImageModal(this)"
+										th:attr="data-foodid=${food.id}"> <i
+										class="fa-solid fa-pen-to-square"></i>
+									</a>
+								</div>
+							</td>
+							<td class="text-nowrap"><span th:text="${food.price}"></span>
+								MMK</td>
+							<td><span th:if="${food.description}==null"
+								class=" fw-bolder">-</span> <span
+								th:if="${food.description}==''" class=" fw-bolder">-</span><span
+								th:text="${food.description}">-</span></td>
+							<td th:text="${food.maxQuantity}"></td>
+							<td><span th:if="${food.Avaliable}==true"
+								class="text-success fw-bolder">YES</span> <span
+								th:if="${food.Avaliable}==false" class="text-danger">NO</span></td>
+							<td><button type="button" class="btn btn-lg col"
+									th:attr="data-foodid=${food.id}, data-foodname=${food.name},data-foodprice=${food.price},data-fooddescription=${food.description},
+										data-foodselect=${food.select},data-foodmaxquantity=${food.maxQuantity},data-foodavaliable=${food.avaliable},data-categoryId=${food.categoryId}"
+									onclick="openUpdateFoodModal(this)"
+									th:id="'update-'+${food.id}">
+									<i class="fa-solid fa-pen-to-square"></i>
+								</button>
+
+
+								<button type="button" class="btn btn-lg col"
+									th:id="'delete-'+${food.id}"
+									th:attr="data-foodid=${food.id}, data-foodname=${food.name}"
+									onclick="openDeleteFoodModal(this)">
+									<i class="fa-solid fa-trash-can" style="color: #df1111;"></i>
+								</button></td>
+						</tr>
+					<tbody>
+				</table>
+
+			</div>
+
+
+
+
+
+
+
+		</div>
+		<!--- ------------------>
+		<!---- Main Content ---->
+		<!-- ------------------->
+
+		<!-- Update Modal -->
+		<div class="modal fade" id="updateFoodModel">
+
+			<div class="modal-dialog">
+				<div class="modal-content pb-4 py-2 px-4">
+					<div class="modal-header">
+						<h3 align="center" class="modal-title w-100  fw-bolder"
+							id="staticBackdropLabel">Update Food</h3>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+
+					</div>
+					<h4 class=" text-danger" th:text="${error}" id="error"></h4>
+					<h4 class=" text-info" th:text="${message}" id="message"></h4>
+					<form th:action="@{/owner/updateFood}" method="post"
+						class="was-validated" th:object="${food}"
+						enctype="multipart/form-data">
+						<div class="mb-3 ">
+							<label for="name" class="form-label text-success">Food
+								Name</label> <input type="text" th:field="*{name}" id="updateName"
+								minlength="1" maxlength="40" class="form-control" required />
+						</div>
+						<div class="mb-3">
+							<label for="description" class="form-label text-success">Description</label>
+							<textarea type="text" th:field="*{description}" maxlength="255"
+								required rows="4" cols="50" id="updatedescription"
+								class="form-control"></textarea>
+						</div>
+						<div class="mb-3">
+							<label for="price" class="form-label text-success">Price</label>
+							<input type="number" th:field="*{price}" id="updatePrice"
+								required min="1" step="0.01" max="9999999" class="form-control" />
+						</div>
+						<div class="mb-3">
+							<label for="maxquantity" class="form-label text-success">Max
+								Quantity</label> <input type="number" th:field="*{maxQuantity}"
+								id="updateQuantity" class="form-control" min="1" step="1"
+								max="100" required />
+						</div>
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">Is
+								Available?</label> <label> <input type="radio" id="availableYes"
+								th:field="*{avaliable}" th:value="Yes" /> Yes
+							</label> <label> <input type="radio" id="availableNo"
+								th:field="*{avaliable}" th:value="No" /> No
+							</label>
+						</div>
+						<div class="mb-3">
+							<label for="category_id" class="form-label text-success">Food
+								Category</label> <select th:field="*{select}" class="form-select "
+								required>
+								<option value="" id="updateFoodId">Select</option>
+								<option th:each="category : ${categorys}"
+									th:value="${category.id}" th:text="${category.foodName}"></option>
+							</select>
+						</div>
+
+						<hr>
+						<div class="btnGp d-flex">
+							<input type="hidden" th:field="*{id}" id="updateId" /> <input
+								data-bs-dismiss="modal" type="button"
+								class="modalBtn btn btn-outline-danger w-50 me-2" value="Cancel">
+							<input type="submit" class="modalBtn btn btn-success col-2 w-50"
+								value="Update">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Update Image  -->
+		<div class="modal fade" id="updateFoodImageModel">
+
+			<div class="modal-dialog">
+				<div class="modal-content pb-1 py-1 px-4">
+					<div class="modal-header">
+						<h1 align="center" class="modal-title fs-5 fw-3"
+							id="staticBackdropLabel">Update Food Image</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<h4 class=" text-danger" th:text="${errorImage}"
+						id="errorImage"></h4>
+					<h4 class="text-info" th:text="${messageImage}"
+						id="messageImage"></h4>
+					<form th:action="@{/owner/updateFoodImage}" method="post"
+						th:object="${food}" enctype="multipart/form-data">
+						<div class="mb-3 ">
+							<label for="path" class="form-label"><i
+								class="fa-solid fa-folder"></i>Upload Images Photo</label> <input
+								th:field="*{image}" class="form-control" type="file"
+								accept="image/*" id="formFile" name="foodImg">
+
+						</div>
+
+						<hr>
+
+						<div class="btnGp d-flex modal-footer">
+							<input type="hidden" th:field="*{id}" id="updateImageFoodId" />
+							<input type="button" data-bs-dismiss="modal"
+								class="modalBtn btn btn-outline-danger col me-2" value="Cancel">
+							<input type="submit" class="modalBtn btn btn-success col "
+								value="Update">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- Update Image  -->
+
+
+		<!--Delete Modal -->
+		<div class="modal fade" id="deleteFoodModal" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content py-2 px-3">
+					<div class="modal-header">
+						<h1 align="center" class="modal-title fs-5"
+							id="staticBackdropLabel">Delete Food</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p class=" text-danger" th:text="${errorDelete}"></p>
+						<h3 style="white-space: normal; word-wrap: break-word;">
+							<span class="d-block">Are you sure want to delete</span> "
+							<div class="text-warning d-inline" id="deleteName"></div>
+							" !
+						</h3>
+					</div>
+					<form th:action="@{/owner/deleteFood}" method="post"
+						th:object="${food}">
+						<div class="modal-footer d-flex">
+							<input type="hidden" th:field="*{id}" id="deleteId" /> <input
+								type="button" class="modalBtn btn btn-outline-primary col me-2"
+								data-bs-dismiss="modal" value="No"> <input type="submit"
+								class="modalBtn btn btn-danger col " value="Yes">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------>
+	<!-- footer -->
+	<!-- ------------>
+
+
+
+
+
+</body>
+
+</html>
